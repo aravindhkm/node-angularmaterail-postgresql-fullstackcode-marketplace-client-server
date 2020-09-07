@@ -1,0 +1,25 @@
+<div class="main-container">
+    <div class="row page-title">
+        <div class="col m5">
+            <div class="card-header title-header mb-2 px-2"><h5><i class="fa fa-plus"></i>Setting</h5> </div>
+        </div>
+    </div>
+    <div class="card main-section">
+        <form role='form' #settingForm='ngForm'>
+            <div class='row'>
+                <div class="col s2">
+                <h6>App Maintenance : </h6>
+                </div>
+                    <div class="col s3">
+                        <label class="switchStatus">
+                        <input type="checkbox" name="appStatus" [(ngModel)]='appStatus' (change)="updateStatus($event)">
+                        <span class="sliderStatus slider round"> 
+                        <span class="on" >Active</span>
+                        <span class="off">InActive</span></span>
+                    </label>
+                     </div>
+                
+            </div> 
+        </form>
+    </div>
+</div>

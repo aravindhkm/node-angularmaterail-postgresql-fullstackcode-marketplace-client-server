@@ -1,0 +1,130 @@
+.usertype {
+    float: left
+}
+
+.userdatefill {
+    float: left
+}
+
+.userblocktype {
+    float: left
+}
+
+.filterdiv {
+    margin-top: 15px
+}
+
+.input-group-addon {
+    cursor: pointer;
+}
+
+agm-map {
+    height: 450px;
+}
+
+.btn btn-primary waves-effect waves-light {
+    float: right !important;
+}
+
+.viewkyc {
+    color: dodgerblue !important;
+    cursor: pointer !important;
+    text-decoration: underline !important
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+    top: 20px;
+    left: 10px;
+}
+
+.switch input {
+    display: none;
+}
+
+.list-group-item.active list-group-item {
+    font-weight: bold;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-btn-wrapper .btn {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+
+/*------ ADDED CSS ---------*/
+
+
+/*--------- END --------*/
+
+
+/* Rounded sliders */
+
+.infomodaltxt {
+    font-size: small;
+}
+
+.usertypetd {
+    font-size: smaller;
+    font-weight: 600;
+}
+
+.nolocation {
+    color: darkgray;
+    font-size: 12px;
+}
+
+.info-icon .tooltip-text {
+    visibility: hidden;
+    background: #6a7a99;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0;
+    display: block;
+    z-index: 1;
+    top: 270px;
+    right: 743px;
+    width: 45px;
+    font-size: 9px;
+}
+
+.info-icon:hover .tooltip-text {
+    visibility: visible;
+}
+
+label.userserachlabl {
+    float: left;
+}
+
+.viewicon:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+angular2-multiselect {
+    position: absolute;
+    width: 93%;
+}

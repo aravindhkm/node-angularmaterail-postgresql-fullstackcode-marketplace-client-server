@@ -1,0 +1,118 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>Product Management</h5>
+        </div>
+        <!-- <div class="col m8 header-right-sec m-0">
+            <form class="common-form row m-0" #searchForm='ngForm' (ngSubmit)='submit(searchForm.value)'>
+
+                <div class="col s1 m-0 p-0">
+                    <button type="button" class="btn-icon btn-block btn-reset" (click)="onReset()">
+            <i class="material-icons">autorenew</i>
+          </button>
+                </div>
+                <div class="col nav-wrapper s6">
+                    <div class="input-group">
+                        <span (click)="submit(searchForm.value)" class="input-group-addon" type='submit'>
+              <i class="material-icons">search</i>
+            </span>
+                        <div class="input-field search-field">
+                            <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div> -->
+        <div class="col m8 header-right-sec pr-0">
+            <form class="common-form row m-0" #productPageSearchForm='ngForm' (ngSubmit)='searchFilter(productPageSearchForm.value)'>
+                <div class="col pr-0">
+                    <button class="btn-small btn-primary" type='button' (click)="excelExport()">Export
+                        Csv</button>
+                </div>
+                <div class="col m-0 p-0">
+                    <button class="btn-icon btn-block btn-reset" type='button' (click)="onReset()">
+                <i class="material-icons">autorenew</i>
+                </button>
+                </div>
+                <div class="col nav-wrapper s6">
+                    <div class="input-group">
+
+                        <div class="input-field search-field">
+                            <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                        </div>
+                        <span (click)='searchFilter(productPageSearchForm.value)' class="input-group-addon" type='button'>
+                            <i class="material-icons">search</i>
+                          </span>
+                    </div>
+                </div>
+            </form>
+        </div><br><br>
+
+
+
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th class="xs-sec center">S No</th>
+                        <th class="sm-sec">Product Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th class="sm-sec center">Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='productList.length != 0'>
+                    <tr *ngFor='let i=index let prolist of productList | paginate:{itemsPerPage: itemsPerPage, currentPage: noOfpages,totalItems:collection}'>
+                        <td class="center">{{(noOfpages - 1 ) * itemsPerPage + i + 1}}</td>
+                        <td>{{prolist.productName}}</td>
+                        <td>{{getCategories(prolist.categoryId)}}</td>
+                        <td style="display: block;width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;line-height: 55px;">{{prolist.description}}</td>
+                        <td>{{prolist.quantity}}</td>
+                        <td>{{prolist.price}} INR</td>
+                        <td>
+                            <label class="switchStatus">
+                                <input type="checkbox" name="block" [(ngModel)]="prolist.isBlock" (change)="updateProduct($event,'blockStatus',prolist.id)">
+                                <span class="sliderStatus slider round"> 
+                                <span class="on" >Block</span>
+                                <span class="off">UnBlock</span></span>
+                             </label>
+                        </td>
+                        <td class="center">
+                            <a (click)="create($event,prolist.id,true,prolist.isBlock)" class="act-btn"><i class="small material-icons icon-view">remove_red_eye</i></a>
+                            <a (click)="create($event,prolist.id,false,prolist.isBlock)" class="act-btn pl-2"><i class="small material-icons icon-edit">edit</i></a>
+                            <a (click)="deleteProduct(prolist.id)" class="act-btn pl-2"><i class="small material-icons icon-dele">delete</i></a>
+                            <!-- <a (click)="blockUser(data.id)"
+                   class="act-btn pl-2"><i class="small material-icons icon-airplay">block</i></a>
+               -->
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='productList.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class='pagination-section mt-3' *ngIf='productList.length > 0'>
+
+    <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+</div>
+<div *ngIf="hideShow" id="mySidepanel" class="outer-show-sec">
+
+    <div class="show-form animate__animated animate__fadeInRight">
+        <!-- <button (click)="hideShowForm()" class="close-button"><i class="material-icons">close</i></button> -->
+        <app-add-product [editId]="editId" [isView]="isView" (userForm)="hideShowForm()"></app-add-product>
+    </div>
+</div>
+<div class="button-section fixed-action-btn direction-top" (click)="create($event,'',false,'')">
+    <button class="btn-floating btn-primary btn-icon-add btn-large"><i class="material-icons">add</i></button>
+</div>

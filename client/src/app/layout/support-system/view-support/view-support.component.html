@@ -1,0 +1,70 @@
+<div class="main-container ">
+    <div class="row page-title">
+        <div  class="col s9 ">
+            <h5>View Support Management</h5>
+        </div>        
+    </div>
+    <div class="card main-section p-0">
+        <form role='form'
+              [formGroup]='viewSupportData'
+              class="common-form">
+              <div class="row view-section">
+                <div class="input-field col s4">
+                    <label class="field-label"> Name </label>
+               <p>:<span>{{this.viewSupportData.value.name}}</span></p> 
+                </div>
+                
+                  <div   class="input-field col s4">
+                    <label class="field-label"> User Name </label>
+                <p>:<span>{{this.viewSupportData.value.userName}}</span></p>
+                </div>
+    
+                    <div  class="input-field col s4">
+                    <label class="field-label"> Email </label>
+                    <p>:<span>{{this.viewSupportData.value.email}}</span></p>
+                    </div>
+    
+                    <div  class="input-field col s4">
+                        <label class="field-label"> Report type </label>
+                    <p>:<span>{{this.viewSupportData.value.type}}</span></p>
+                    </div>
+    
+                    <div  class="input-field col s4">
+                        <label class="field-label"> Contact Number </label>
+                   <p>:<span>{{this.viewSupportData.value.phoneNumber}}</span></p> 
+                    </div>
+    
+                    <div  class="input-field col s12">
+                        <label class="field-label"> Report Detail </label>
+                    <p>:<span>{{this.viewSupportData.value.address}}</span></p>
+                    </div>
+            </div>
+             
+<div class="row desc-text-box">
+    <div  class="input-field col s12 text-box">
+        <!-- <label class="field-label">Message</label> -->
+        <textarea type='text'
+        id="textarea1" class="materialize-textarea"
+                  formControlName='message'
+                  (keypress)="restrictSpace($event)"
+                  placeholder="Type your message"
+                  required></textarea>
+        <div *ngIf="submitted && f.message.errors && f.message.errors.required"
+             class="invalid-feedback">
+            Message is required</div>
+    </div>
+    <div class='buttom-section right mt-3'>
+        <button class="btn btn-primary waves-effect" (click)="onSubmit()"><i class="material-icons left">message</i>Send Message</button>
+
+        <button class='btn btn-block ml-2 waves-effect'
+        (click)='listPath()'>Cancel</button>
+    
+</div>
+</div>
+
+                
+                
+        </form>
+       
+    </div>
+</div>

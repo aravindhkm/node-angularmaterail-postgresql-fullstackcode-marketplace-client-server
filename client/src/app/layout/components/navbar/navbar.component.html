@@ -1,0 +1,127 @@
+<!-- <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
+    <div class="container-fluid">
+      
+        <div class="navbar-header page-scroll">
+            <a class="navbar-brand" href="#intro">Angular X Social Login</a>
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+        <div>
+            <a class="dropdown-item" [routerLink]="['/login']" (click)="onLoggedout()">
+                <i class="fa fa-fw fa-power-off"></i> LOGOUT
+            </a>
+        </div>
+    </div>
+</nav> -->
+<!-- <nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">MARKET PLACE</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+            <li>
+                <a [routerLink]="['/login']" (click)="onLoggedout()">
+                     LOGOUT
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav> -->
+<!-- <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+       
+        <i class="fa fa-bars text-muted" aria-hidden="true"></i>
+    </button> -->
+<div class="header-section">
+
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
+
+        <div class="nav-wrapper">
+
+
+            <ul class="right">
+                <!-- <li>
+                    <div (click)="notificationclick($event)">
+                        <a herf="#">
+                            <i class="material-icons">notifications</i>
+                        </a>
+                    </div>
+                    <div *ngIf="notificationShoe" class="dropdown-menu-right" ngbDropdownMenu>
+                       
+                        <ng-container *ngFor="let item of notificationData; index as i">
+                            <div *ngIf="i<=2">
+
+                                <a href="javascript:void(0)" class="dropdown-item">
+                                    <i class=""></i> {{item.userName}} <b> {{item.isOnline}} </b>
+                                </a>
+                            </div>
+                        </ng-container>
+                       
+                    </div>
+
+                </li> -->
+                <li class="nav-item notification-drop" (click)='onClick($event)'>
+                    <a herf="#" (click)="notificationclick($event,true)" class="noti-top-badge">
+                        <i class="material-icons">notifications </i>
+                        <small class="notification-badge">5</small>
+                    </a>
+                    <div class="dropdown-menu-right dropdown-sec" *ngIf="notificationShoe">
+                        <div class="dropdown-content">
+                            <div *ngIf="notificationData.length<=0" class="popup-tit">
+                                All Notification Readed
+                            </div>
+                            <ul *ngFor="let item of notificationData; index as i">
+                                <perfect-scrollbar>
+                                    <div *ngIf="i<=2">
+                                        <li class="dropdown-divider">
+                                            <span class="badge noti-badge">1</span>
+                                            {{item.title}} {{item.User}}
+                                            <small>{{resultTime}}</small>
+                                            
+                                        </li>
+                                    </div>
+
+                                </perfect-scrollbar>
+                            </ul>
+                            <a style="cursor:pointer" class="view-all-btn" (click)='notficationRoute()'>
+                            {{'View All'}}
+                        </a>
+                        </div>
+                    </div>
+
+                </li>
+
+                <!-- Dropdown Trigger -->
+                <li class="user-profile" (click)="onClick($event)">
+                    <div (click)="dropclick($event,true)">
+                        <a herf="#">
+                            <img src="assets/images/avatar.png" class="avatar-img">
+                            <span class="user-name">
+                                Admin
+                            </span>
+
+                            <i class="material-icons right">arrow_drop_down</i></a>
+                    </div>
+                    <div *ngIf="drophideShow" class="dropdown-sec">
+                        <ul id="" class="animate__animated dropdown-content">
+                            <li><a (click)='toSettings()'><i class="material-icons">settings</i>Setting</a></li>
+
+                            <li>
+                                <a (click)="onLoggedout()">
+                                    <i class="material-icons">keyboard_tab</i> Logout
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </li>
+
+
+
+            </ul>
+        </div>
+    </nav>
+</div>
+<!-- <script src="assets/js/dropdown.js"></script> -->
+<!-- <script src="../../../../assets/js/dropdown.js"></script> -->
+<!-- <script>
+     $('.dropdown-trigger').dropdown();
+</script> -->

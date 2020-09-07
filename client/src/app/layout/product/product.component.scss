@@ -1,0 +1,127 @@
+.usertype {
+    float: left
+}
+
+.userdatefill {
+    float: left
+}
+
+.userblocktype {
+    float: left
+}
+
+.input-group-addon {
+    cursor: pointer;
+}
+
+.filterdiv {
+    margin-top: 15px
+}
+
+agm-map {
+    height: 450px;
+}
+
+.btn btn-primary waves-effect waves-light {
+    float: right !important;
+}
+
+.viewkyc {
+    color: dodgerblue !important;
+    cursor: pointer !important;
+    text-decoration: underline !important
+}
+
+.list-group-item.active list-group-item {
+    font-weight: bold;
+}
+
+.switchStatus {
+    width: 77px;
+    height: 29px;
+    input:checked+.slider:before {
+        left: -8px;
+    }
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-btn-wrapper .btn {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+
+/* Rounded sliders */
+
+.infomodal {}
+
+.infomodaltxt {
+    font-size: small;
+}
+
+.usertypetd {
+    font-size: smaller;
+    font-weight: 600;
+}
+
+.nolocation {
+    color: darkgray;
+    font-size: 12px;
+}
+
+.info-icon .tooltip-text {
+    visibility: hidden;
+    background: #6a7a99;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0;
+    display: block;
+    z-index: 1;
+    top: 270px;
+    right: 743px;
+    width: 45px;
+    font-size: 9px;
+}
+
+.info-icon:hover .tooltip-text {
+    visibility: visible;
+}
+
+label.userserachlabl {
+    float: left;
+}
+
+.viewicon:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+angular2-multiselect {
+    position: absolute;
+    width: 93%;
+}
+// .input-group{
+//     padding: 7px 8px;
+// }
+// .btn-reset{
+//     line-height: 30px;
+// }

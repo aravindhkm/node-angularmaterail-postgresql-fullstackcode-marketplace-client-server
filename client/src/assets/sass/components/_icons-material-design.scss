@@ -1,0 +1,41 @@
+/* This is needed for some mobile phones to display the Google Icon font properly */
+.material-icons {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+}
+.icon-view{
+
+}
+i.small{
+  font-size: 1.2rem;
+}
+.act-btn{
+  cursor: pointer;
+  i{ color: $warning;}
+  &:hover{
+    .icon-view{
+      color: $secondary-btn;
+    }
+    .icon-edit{
+      color: $info-btn;
+    }
+    .icon-dele{
+      color: $error-btn;
+    }
+  } 
+}
+.navbar{
+  i{
+    color: $header-icon-txt;
+  }
+}
+.btn-icon-add.btn-large{
+  border-radius: 50%;
+}
+.input-field.search-field input[type=search] ~ .mdi-navigation-close,
+.input-field.search-field input[type=search] ~ .material-icons{
+    top: 8px;
+    right: 0;
+    font-size: 1.2rem;
+  
+}

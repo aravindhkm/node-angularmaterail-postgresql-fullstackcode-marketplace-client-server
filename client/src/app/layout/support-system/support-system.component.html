@@ -1,0 +1,73 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>Support Management</h5>
+        </div>
+        <div class="col m8 header-right-sec pr-0">
+            <form class="common-form row m-0" #searchForm='ngForm' (ngSubmit)='submit(searchForm.value)'>
+                <button type="button" class="btn-icon btn-block btn-reset" (click)="onReset()">
+                <i class="material-icons">autorenew</i>
+              </button>
+                <div class="col nav-wrapper s6 right">
+                    <div class="input-group">
+
+                        <div class="input-field search-field">
+                            <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                        </div>
+                        <span class="input-group-addon" type='submit' (click)='submit(searchForm.value)'>
+            <i class="material-icons">search</i>
+          </span>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th class="xs-sec text-center">S No</th>
+                        <th> User Name</th>
+                        <th class=""> Email</th>
+                        <!-- <th class="md-sec"> Message</th> -->
+                        <th class=""> Type</th>
+                        <th class="sm-sec center"> Status</th>
+                        <th class="center"> Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='supportDatas.length != 0'>
+                    <tr *ngFor='let i=index let data of supportDatas | paginate:{itemsPerPage: itemsPerPage, currentPage: page,totalItems:collection}'>
+                        <td class="text-center">{{(page - 1 ) * itemsPerPage + i + 1}}</td>
+                        <td>{{data.User && data.User.userName}}</td>
+                        <td>{{data.User && data.User.email}}</td>
+                        <!-- <td>{{"-"}}</td> -->
+                        <td>{{data.type}}</td>
+                        <td class="center">
+
+                            <label class="switchStatus">
+                    <input type="checkbox" name="block" [(ngModel)]="data.status" (change)="statusChange($event,data.id,data.status)">
+                    <span class="sliderStatus slider round"> 
+                    <span class="on" >Completed</span>
+                    <span class="off">Pending</span></span>
+             </label>
+                        </td>
+                        <td class="center">
+                            <a (click)="create($event,data.id,true)" class="act-btn"><i class="small material-icons icon-view">remove_red_eye</i></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='supportDatas.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div *ngIf="supportDatas.length > 0" class='pagination-section mt-3'>
+    <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+</div>

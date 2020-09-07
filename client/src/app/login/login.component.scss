@@ -1,0 +1,63 @@
+@import '../../styles.scss';
+
+.login-left {
+    padding: 0;
+}
+
+.error {
+    color: $error-txt !important;
+    font-size: small;
+}
+
+.common-form {
+    .validate {
+        border-bottom: 2px #dcdcdc;
+    }
+    input:not([type]),
+    input[type=text]:not(.browser-default),
+    input[type=password]:not(.browser-default),
+    input[type=email]:not(.browser-default) {
+        border-bottom: 2px solid #dcdcdc;
+    }
+    .forget-txt {
+        a {
+            font-size: .9rem;
+            color: $default-txt;
+        }
+        &:hover {
+            a {
+                text-decoration: underline;
+            }
+        }
+    }
+    ::-webkit-input-placeholder {
+        /* Edge */
+        color: $default-txt;
+        font-size: 14px;
+    }
+     :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: $default-txt;
+        font-size: 14px;
+    }
+     ::placeholder {
+        color: $default-txt;
+        font-size: 14px;
+    }
+}
+.login-box{
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.sub-text{
+    color: $default-txt;
+    font-size: 17px;
+    font-weight: 400;
+}
+@media only screen and (min-width: 993px){
+.container {
+    width: 65%;
+}
+}

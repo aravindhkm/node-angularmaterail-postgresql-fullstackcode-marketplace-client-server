@@ -1,0 +1,47 @@
+{
+	"Users": [
+		{
+			"firstName": "Super",
+			"lastName": "Admin",
+			"userName": "superadmin",
+			"email": "superadmin@mail.com",
+			"password": "super@12345",
+			"countryCode": "+91",
+			"mobile": "9876543232",
+			"roleName": "superadmin",
+			"status": true
+		},
+		{
+			"firstName": "Admin",
+			"lastName": "Admin",
+			"userName": "admin",
+			"email": "admin@mail.com",
+			"password": "admin@12345",
+			"countryCode": "+91",
+			"mobile": "9876543233",
+			"roleName": "admin",
+			"status": true
+		},
+		{
+			"firstName": "customer",
+			"lastName": "customer",
+			"userName": "customer",
+			"email": "customer@mail.com",
+			"password": "customer@12345",
+			"countryCode": "+91",
+			"mobile": "9876543254",
+			"roleName": "customer",
+			"status": true
+		}
+	],
+	"Settings": [
+		{
+			"name": "appMaintenance",
+			"description": "Marketplace application is currently down for maintenance"
+		},
+		{
+			"name": "modifyPassword",
+			"description": "Modify the user password"
+		}
+	]
+}

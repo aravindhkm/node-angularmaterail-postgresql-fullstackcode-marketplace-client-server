@@ -1,0 +1,128 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>Report Management</h5>
+        </div>
+        <div class="col m8 header-right-sec m-0 pr-0">
+            <form class="common-form row m-0" #reportForm='ngForm'>
+                <div class="col nav-wrapper s6">
+
+                    <div class="input-field col s12 ">
+
+                        <select class='browser-default' (change)='onSelect($event)'>
+      <option disabled selected>--Select Report Type--</option>
+        <option value="user">User</option>
+        <option value="product">Product</option>
+      </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped ">
+                <thead>
+                    <tr>
+                        <th class="xs-sec text-center">S No</th>
+                        <th *ngIf="searchFilter == 'user' || !searchFilter"> User Name</th>
+                        <th *ngIf="searchFilter == 'product' || !searchFilter"> Product Name</th>
+                        <th class="sm-sec"> Reason</th>
+                        <th class="sm-sec"> Status</th>
+                        <th>View</th>
+                        <th class="sm-sec text-center"> Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='reportDatas.length != 0'>
+                    <tr *ngFor='let i=index let data of reportDatas | paginate:{itemsPerPage: itemsPerPage, currentPage: page,totalItems:collection}'>
+                        <td class="text-center">{{(page - 1 ) * itemsPerPage + i + 1}}</td>
+                        <td *ngIf="searchFilter == 'user' || !searchFilter">{{data.User && data.User.userName ? data.User.userName : '-'}}</td>
+                        <td *ngIf="searchFilter == 'product' || !searchFilter">{{data.Product && data.Product.productName ? data.Product.productName : '-'}}</td>
+                        <td>{{data.reason}}</td>
+                        <td>{{data.status == 'block' ? 'Blocked' : 'UnBlock' }}</td>
+                        <td>
+
+                            <a (click)="openReportDetail(data)" class="act-btn"><i class="small material-icons icon-view">remove_red_eye</i></a>
+
+                        </td>
+                        <td>
+                            <div class="button-section col mt-3 ">
+                                <button class="btn btn-block waves-effect  ml-2" (click)="onStatusChange('block',data.id,data.reportType)"><i class="small material-icons icon-airplay">block</i> Block</button>&nbsp;&nbsp;
+                                <button class="btn btn-primary " (click)="onStatusChange('ignore',data.id,data.reportType)"><i class="small material-icons icon-view">visibility_off</i> ignore </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='reportDatas.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf='reportDatas.length > 0' class='pagination-section mt-3'>
+        <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+    </div>
+</div>
+
+
+
+<!-- MODAL -->
+
+<dialog id="myDialog" class="modalDialog">
+    <div class="modal-content-sec">
+        <div>
+            <a (click)='close()' title="Close" class="close btn-danger">X</a>
+            <h4>Report Details</h4>
+            <div class=" main-section">
+                <table>
+
+                    <tbody>
+                        <tr>
+                            <td class="center" style="width: 200px;">
+                                <h6><b>Report Type  :</b></h6>
+
+                            </td>
+                            <td>
+                                <h6>{{reportType}}</h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center" style="width: 200px;">
+                                <h6><b>Report Content  :</b></h6>
+
+                            </td>
+                            <td>
+                                <h6>{{reportContent}}</h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center" style="width: 200px;">
+                                <h6><b>Report Date  :</b></h6>
+
+                            </td>
+                            <td>
+                                <h6>{{reportStatus}}</h6>
+                            </td>
+                        </tr>
+
+
+
+
+
+
+                    </tbody>
+
+                </table>
+                <div class='buttom-section text-right mt-3'>
+                    <button class='btn btn-default ml-2' (click)='close()'>Cancel</button>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</dialog>

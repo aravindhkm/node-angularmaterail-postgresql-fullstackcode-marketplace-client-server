@@ -1,0 +1,147 @@
+<perfect-scrollbar>
+    <div class="main-container sidenav-rt">
+        <div class="row page-title">
+            <div *ngIf="!bannerId && !isView" class="col s9 ">
+                <h5><b>Create Banner</b></h5>
+            </div>
+            <div *ngIf="bannerId && !isView" class="col s9 ">
+                <h5><b>Edit Banner</b></h5>
+            </div>
+            <div *ngIf="isView" class="col s9 ">
+                <h5><b>View Banner Management</b></h5>
+            </div>
+            <div class="col s3 p-0">
+                <button class='btn-icon btn-block btn-close right' (click)='listPage()'><i class="material-icons">close</i></button>
+
+            </div>
+        </div>
+        <div class=" main-section" *ngIf="!isView">
+            <form role='form' [formGroup]='bannerManagementForm' class="common-form view-section p-0">
+                <div *ngIf="!isView" class="input-field col s12">
+                    <label>{{constants.BANNER.NAME}} </label>
+                    <input class="form-control" id="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && check.name.errors }" placeholder={{constants.BANNER.PLACENAME}} required />
+                    <div *ngIf="submitted && check.name.errors" class="invalid-feedback">
+                        <div *ngIf="check.name.errors.required">{{constants.BANNER.NAMEERR}}</div>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label">{{constants.BANNER.NAME}} :</label>
+                    <p *ngIf="isView">{{this.bannerManagementForm.value.name}}</p>
+
+                </div> -->
+                <div *ngIf="!isView" class="input-field col s12 text-box">
+                    <label>{{constants.BANNER.DES}}</label>
+                    <textarea class="materialize-textarea" id="description" formControlName="description" [ngClass]="{ 'is-invalid': submitted && check.description.errors }" placeholder={{constants.BANNER.DESCS}} required></textarea>
+                    <div *ngIf="submitted && check.description.errors" class="invalid-feedback">
+                        <div *ngIf="check.description.errors.required">{{constants.BANNER.DESCERROR}}</div>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label">{{constants.BANNER.DES}} :</label>
+                    <p *ngIf="isView">{{this.bannerManagementForm.value.description}}</p>
+                </div> -->
+
+                <div class="input-field col s12">
+                    <label>{{constants.PRODUCT.IMAGE}}</label>
+                    <div class="image-upload-sec">
+                        <div class="img-prev">
+                            <span *ngIf="!imagePreviewUrl" class="prev-logo center-align-content"> <i class="material-icons">image</i></span>
+                            <span *ngIf="imagePreviewUrl"><img [src]="imagePreviewUrl"
+                                        height="220"
+                                        width="320"></span>
+                        </div>
+                        <div *ngIf="!isView" class="custom-file">
+                            <label>
+                            <input type='file'
+                                class=''
+                                (change)="fileProgress($event)"
+                                accept="image/*" formControlName="image"
+                                required>
+                            <span class="file-custom">Upload Image</span>
+                        </label>
+                            <a (click)='deleteImage()' class="delete-img">Delete</a>
+                        </div>
+
+                    </div>
+                    <div *ngIf="submitted && (!imagePreviewUrl && this.fileData == null)" class="invalid-feedback">Image is required </div>
+                </div>
+
+
+
+
+
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                <label>Image</label>
+
+            </div> -->
+
+            </form>
+            <div class='buttom-section text-right mt-3'>
+                <!-- <button *ngIf="!isView" (click)="changeEditPage()" class='btn btn-primary btn-large'>Save</button>
+            <button *ngIf="isView" (click)="changeEditPage()" class='btn btn-primary btn-large' (click)='addBanner()'>Edit</button>
+            <button class='btn btn-default ml-2 btn-large' (click)='listPage()'>Cancel</button> -->
+
+                <button *ngIf="!isView" class='btn btn-primary btn-large' (click)='addBanner()'>Save</button>
+                <button *ngIf="isView" (click)="changeEditPage()" class='btn btn-primary btn-large' (click)='addBanner()'>Edit</button>
+                <button class='btn btn-default ml-2 btn-large' (click)='listPage()'>Cancel</button>
+            </div>
+        </div>
+        <div class=" main-section" *ngIf="isView">
+            <table>
+
+                <tbody>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>{{constants.BANNER.NAME}} :</b></h6>
+
+                        </td>
+                        <td>
+                            <h6>{{this.bannerManagementForm.value.name}}</h6>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>{{constants.BANNER.DES}} :</b></h6>
+
+                        </td>
+                        <td>
+                            <h6>{{this.bannerManagementForm.value.description}}</h6>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>Image :</b></h6>
+
+                        </td>
+                        <td>
+                            <div class="img-prev">
+                                <span *ngIf="!imagePreviewUrl" class="prev-logo center-align-content"> <i class="material-icons">image</i></span>
+                                <span *ngIf="imagePreviewUrl"><img [src]="imagePreviewUrl"
+                                            height="120"
+                                            width="120"></span>
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+            <div class='buttom-section text-right mt-3'>
+                <button *ngIf="isView" (click)="changeEditPage()" class='btn btn-primary btn-large' (click)='addBanner()'>Edit</button>
+                <button class='btn btn-default ml-2 btn-large' (click)='listPage()'>Cancel</button>
+            </div>
+        </div>
+
+
+    </div>
+</perfect-scrollbar>

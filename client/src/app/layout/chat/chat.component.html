@@ -1,0 +1,192 @@
+<div class="row main-container chart-box-section">
+    <div class="row main-section p-0">
+        <div class="row col s12 m9 chat-left">
+            <div class="col s12 title-box">
+                <div class="page-title">
+                    <h5>Chat</h5>
+                </div>
+            </div>
+            <div class="card col s12 p-0">
+                <div class="col s4 chat-list p-0">
+                    <div class="chat-header">
+                        <form class="common-form nav-wrapper" #searchForm='ngForm' (ngSubmit)='getSearchList(searchForm.value)'>
+                            <div class="input-group px-0">
+                                <span class="input-group-addon"><i class="material-icons"
+                                        type='submit'>search</i></span>
+                                <div class="input-field search-field pr-0">
+                                    <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                                    <a class="search-close"><i class="material-icons">close</i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="chat-list-body">
+                        <div *ngFor="let data of channelDatas; let i = index" class="list-user">
+                            <div class="chat-user" (click)="getChats($event,data,i)" [ngClass]="{'chat-active': data.isSelected === true}">
+                                <a class="row valign-wrapper m-0">
+                                    <div class="col ch-user-img">
+                                        <img *ngIf='data.User && !data.User.userImage' src="assets/images/chat_img.png" width="50" height="50" class="circle">
+                                        <img *ngIf='data.User && data.User.userImage' src="{{imgUrl}}{{data.User.userImage}}" width="50" height="50" class="circle">
+
+                                    </div>
+                                    <div class=" col chat-user-dtl">
+                                        <div class="s12">
+                                            <h6 class="chat-name truncate">
+                                                {{ data.User.userName + ' - '+ data.name}}
+                                                <!-- + '---' + data.isSelected -->
+                                            </h6>
+                                            <span class="time-show">10min ago</span>
+                                        </div>
+                                        <p class="chat-desc truncate">
+                                            Lorem ipsum dolor sit amet
+                                        </p>
+
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s8 chat-box p-0">
+                    <div class="chat-header">
+                        <div class="row m-0 valign-wrapper ">
+                            <div class="col">
+                                <img *ngIf='!userimage' src="assets/images/chat_img.png" width="50" height="50" class="circle">
+                                <img *ngIf='userimage' src="{{userimage}}" width="50" height="50" class="circle">
+
+                            </div>
+                            <div class="chat-user-dtl col p-0">
+                                <div class="s12">
+                                    <h6 class="chat-name">{{USERNAME}}</h6>
+                                </div>
+                                <span class="s12">{{CMPNAME}}</span>
+                            </div>
+                            <div class="ml-auto">
+                                <a href="#" class="">
+                                    <i class="material-icons">option</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-area card-body">
+
+                        <perfect-scrollbar>
+                            <div *ngFor="let chat of chatDatas;" class="inset-chat-box">
+
+
+                                <div *ngIf="chat.toUserId != loginUserId" class="chat chat-right">
+                                    <div class="chat-avatar">
+                                        <img class="circle" src="assets/images/chat_img.png">
+                                    </div>
+                                    <div class="chat-body">
+                                        <div class="chat-text">
+                                            <p>
+                                                {{chat.message}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="chat.toUserId == loginUserId" class="chat chat-left">
+                                    <div class="chat-avatar">
+                                        <img *ngIf='!userimage' class="circle" src="assets/images/chat_img.png">
+                                        <img *ngIf='userimage' class="circle" src="{{userimage}}">
+                                    </div>
+                                    <div class="chat-body">
+                                        <div class="chat-text">
+                                            <p>
+                                                {{chat.message}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="chat-footer card-footer">
+                        <form class="common-form" #msgForm='ngForm' (ngSubmit)='sendMsg(msgForm.value)'>
+                            <a href="#" class="chat-attach chat-icon">
+                            </a>
+                            <input id="msg" type='text' [(ngModel)]='msg' name='msg' class="validate message-txt" placeholder="Type a message">
+                            <button class="btn btn-primary chat-send chat-icon" type='button' (click)="sendMsg(msgForm.value)"><i class="material-icons">send</i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m3 chat-offer-right">
+            <div class="col s12 title-box">
+                <div class="page-title">
+                    <h5>Contact</h5>
+                </div>
+            </div>
+            <div class="card col s12 p-0">
+                <div class="row m-0 valign-wrapper">
+                    <div class="col">
+                        <img *ngIf='!userimage' src="assets/images/chat_img.png" width="50" height="50" class="circle">
+                        <img *ngIf='userimage' src="{{userimage}}" width="50" height="50" class="circle">
+
+                    </div>
+                    <div class="chat-user-dtl col p-0">
+                        <div class="s12">
+                            <h6 class="chat-name">
+                                {{offerData && offerData[0] && offerData[0].userName ? offerData[0].userName : '-'}}
+                            </h6>
+                        </div>
+                        <span class="s12 sub-name">{{offerData && offerData[0] && offerData[0].roleName ? offerData[0].roleName : '-'}}
+                            <span class="badge badge-sec"
+                                  *ngIf="offerData && offerData[0] && offerData[0].userStatus">{{offerData && offerData[0] && offerData[0].userStatus ? 'verified' : '-'}}</span>
+                        <span class="badge badge-sec" *ngIf="!offerData && !offerData[0] && !offerData[0].userStatus">{{offerData && offerData[0] && offerData[0].userStatus ? 'unverified' : '-'}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row offer-dtl mx-0">
+                    <div class="col s6 lay-box">
+                        <label class="small-lab">Product name</label>
+                        <span class="">
+                            {{offerData && offerData[0] && offerData[0].Product && offerData[0].Product.productName ? offerData[0].Product.productName : '-'}}</span>
+                    </div>
+                    <div class="col s6 lay-box">
+                        <label class="small-lab">Product price</label>
+                        <span>
+                            {{offerData && offerData[0] && offerData[0].Product && offerData[0].Product.price ? 'S$' + offerData[0].Product.price + '/ unit' : '-'}}
+                        </span>
+                    </div>
+                </div>
+                <div class="row m-0 offers-dat">
+                    <div class="tit-label">Offers made in Chat</div>
+                    <div class="inset-offer">
+                        <div *ngFor="let offerVal of offerData; let i = index">
+                            <div class="row m-0">
+                                <div class="col s6 lay-box">
+                                    <label class="small-lab">Date</label>
+                                    <span class="">{{offerVal && offerVal.offerDate ? offerVal.offerDate : '-'}}</span>
+                                </div>
+                                <div class="col s6 lay-box">
+                                    <label class="small-lab">Time</label>
+                                    <span>{{offerVal && offerVal.offerTime ? offerVal.offerTime : '-'}}</span>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col s6 lay-box">
+                                    <label class="small-lab">Offer price</label>
+                                    <span class=""> S$
+                                        {{offerVal && offerVal.totalPrice ? offerVal.totalPrice : '-'}}/unit</span>
+                                </div>
+                                <div class="col s6 lay-box">
+                                    <label class="small-lab">Status</label>
+                                    <span class="error-txt">{{offerVal && offerVal.status ? offerVal.status : '-'}}</span>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <h6 *ngIf="offerData.length == 0" class="center-align-content no-offers">No Offers</h6>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

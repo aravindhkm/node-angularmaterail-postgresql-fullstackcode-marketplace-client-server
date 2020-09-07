@@ -1,0 +1,61 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4">
+            <h5>Response Rate Management</h5>
+        </div>
+        <div class="col m8 header-right-sec m-0">
+            <form class="common-form row m-0" #responseSearchForm='ngForm' (ngSubmit)='submit(responseSearchForm.value)'>
+
+                <div class="col m-0 p-0">
+                    <button class="btn btn-icon btn-block btn-reset" type='button' (click)="onReset()">
+                 <i class="material-icons">autorenew</i>
+            </button>
+                </div>
+                <div class="col nav-wrapper s6">
+                    <div class="input-group">
+                        <div class="input-field search-field">
+                            <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                        </div>
+                        <span class="input-group-addon" type='button' (click)='submit(responseSearchForm.value)'>
+                <i class="material-icons">search</i>
+              </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th class="xs-sec text-center">S No</th>
+                        <th> User Name</th>
+                        <th class="sm-sec"> Email</th>
+                        <th class="md-sec"> Mobile</th>
+                        <th class="md-sec"> Response Rate</th>
+                        <th class="md-sec"> Response Time</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='responseRateDatas.length != 0'>
+                    <tr *ngFor='let i=index let data of responseRateDatas | paginate:{itemsPerPage: itemsPerPage, currentPage: page,totalItems:collection}'>
+                        <td class="text-center">{{(page - 1 ) * itemsPerPage + i + 1}}</td>
+                        <td>{{data.userName}}</td>
+                        <td>{{data.email}}</td>
+                        <td>{{data.mobile}}</td>
+                        <td style="text-align: center !important;">{{data.responseData.responseRate}}</td>
+                        <td style="text-align: center !important;">{{data.responseData.responseTime}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='responseRateDatas.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div *ngIf='responseRateDatas.length > 0' class='pagination-section mt-3'>
+    <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+</div>

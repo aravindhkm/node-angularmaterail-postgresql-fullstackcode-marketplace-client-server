@@ -1,0 +1,109 @@
+<!-- 
+<nav class="sidebar-section">
+    <ul class="sidenav">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Catelog</a></li>
+    </ul>
+</nav> -->
+
+<div class="left-sidebar" [ngClass]="{'sidebar-hide': sidebarPreview === true}">
+    <a (click)="sidebarHandle()" class="menu-button"><i class="material-icons">menu</i></a>
+
+    <div class="header-logo">
+        <a href="#" routerLink="/dashboard" class="large-logo"><img src="assets/images/Logo_white.png"></a>
+        <a href="#" routerLink="/dashboard" class="small-logo"><img src="assets/images/Logo-short.png"></a>
+
+    </div>
+    <!-- <button (click)="sidebarHandle()">HideandShow</button> -->
+    <!-- <button *ngIf="sidebarPreview" (click)="sidebarHandle()">HideandShow</button> -->
+    <perfect-scrollbar class="">
+
+
+        <ul id="slide-out" class="sidenav">
+            <!-- <li><a href="#" routerLink="/dashboard"><i class="material-icons icons">dashboard</i><span class="sidebar-title">Dashboard</span></a></li> -->
+            <li>
+                <!-- <a href="#" routerLink="/user"><i class="material-icons icons">group</i>User Management</a> -->
+                <a [routerLink]="['/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">dashboard</i>
+                    <span class="sidebar-title">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/user"><i class="material-icons icons">group</i>User Management</a> -->
+                <a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">person</i>
+                    <span class="sidebar-title">User Management</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/category"><i class="material-icons icons">view_list</i>Category </a> -->
+                <a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">view_list</i>
+                    <span class="sidebar-title">Category Management</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/product"><i class="material-icons icons">group</i>Product </a> -->
+                <a [routerLink]="['/product']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">card_travel</i>
+                    <span class="sidebar-title">Product Management</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/chat"><i class="material-icons icons">chat</i>Chats</a> -->
+                <a [routerLink]="['/chat']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">chat</i>
+                    <span class="sidebar-title">Chat Management</span>
+                </a>
+
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/supportmanagement"><i class="material-icons icons">group</i>SUPPORT </a> -->
+                <a [routerLink]="['/supportmanagement']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">group</i>
+                    <span class="sidebar-title">Support Management</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/notification"><i class="material-icons icons">notifications</i>Notification</a> -->
+                <a [routerLink]="['/notification']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">notifications</i>
+                    <span class="sidebar-title">Notification </span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/newsletter"><i class="material-icons icons">mail_outline </i>News Letter</a> -->
+                <a [routerLink]="['/banner']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">crop</i>
+                    <span class="sidebar-title">Banner Management</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a href="#" routerLink="/newsletter"><i class="material-icons icons">mail_outline </i>News Letter</a> -->
+                <a [routerLink]="['/newsletter']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">mail_outline</i>
+                    <span class="sidebar-title">News Letter </span>
+                </a>
+            </li>
+            <li>
+                <!-- <a routerLink='/report'><i class="material-icons icons">show_chart</i>Report Management</a> -->
+                <a [routerLink]="['/report']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">show_chart</i>
+                    <span class="sidebar-title">Report Management</span>
+                </a>
+            </li>
+            <li>
+                <!-- <a routerLink='/responserate'><i class="material-icons icons">mode_comment</i>Response Rate </a> -->
+                <a [routerLink]="['/responserate']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <i class="material-icons icons">mode_comment</i>
+                    <span class="sidebar-title">Response Rate </span>
+                </a>
+            </li>
+            <!-- <li><a href="#"><i class="material-icons icons">local_grocery_store</i>Product</a></li>
+        <li><a href="#"><i class="material-icons icons">local_grocery_store</i>Product</a></li> -->
+        </ul>
+
+    </perfect-scrollbar>
+
+</div>

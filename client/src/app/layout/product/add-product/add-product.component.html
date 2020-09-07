@@ -1,0 +1,243 @@
+<div class="main-container sidenav-rt">
+    <div class="row page-title">
+        <div *ngIf="!productID && !isView" class="col s9 ">
+            <h5><b>Add New Product</b></h5>
+        </div>
+        <div *ngIf="productID && !isView" class="col s9 ">
+            <h5><b>Edit Product </b></h5>
+        </div>
+        <div *ngIf="isView" class="col s9 ">
+            <h5><b>View Product</b> </h5>
+        </div>
+        <div class="col s3 p-0">
+            <button class='btn-icon btn-block btn-close right' (click)='listPath()'><i class="material-icons">close</i></button>
+
+        </div>
+    </div>
+
+    <div class=" main-section" *ngIf="!isView">
+        <form role='form' [formGroup]='productManagementForm' class="common-form">
+
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.NAME}}</label>
+                <input class="form-control" id="productName" formControlName="productName" [ngClass]="{ 'is-invalid': submitted && check.productName.errors }" placeholder={{constants.PRODUCT.PLACENAME}} required />
+                <div *ngIf="submitted && check.productName.errors" class="invalid-feedback">
+                    <div *ngIf="check.productName.errors.required">{{constants.PRODUCT.ERRORNAME}}</div>
+                </div>
+            </div>
+            <div *ngIf="isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.NAME}} : &nbsp; &nbsp;{{this.productManagementForm.value.productName}}</label>
+
+            </div>
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.CATEGORY}}</label>
+                <select class="browser-default" formControlName="categoryID" [ngClass]="{ 'is-invalid': submitted && check.categoryID.errors }" required>
+                <option value="" disabled selected class="default-txt">-- Select Category --</option>
+                <option *ngFor="let catValue of categoryLists" value={{catValue.id}}>{{catValue.name}}</option>
+                </select>
+                <div *ngIf="submitted && check.categoryID.errors" class="invalid-feedback">
+                    <div *ngIf="check.categoryID.errors.required">{{constants.PRODUCT.CATERROR}}</div>
+                </div>
+            </div>
+
+            <div *ngIf="isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.CATEGORY}} : &nbsp; &nbsp; {{getCategories(this.productManagementForm.value.categoryID)}}</label>
+            </div>
+
+
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.IMAGE}}</label>
+                <div class="image-upload-sec">
+                    <div class="img-prev">
+                        <span *ngIf="!imagePreviewUrl" class="prev-logo center-align-content"> <i class="material-icons">image</i></span>
+                        <span *ngIf="imagePreviewUrl"><img [src]="imagePreviewUrl"
+                                        height="95"
+                                        width="120"></span>
+                    </div>
+                    <div *ngIf="!isView" class="custom-file">
+                        <label>
+                            <input type='file'
+                                class=''
+                                (change)="fileProgress($event)"
+                                accept="image/*"
+                                required>
+                            <span class="file-custom">Upload Image</span>
+                        </label>
+                        <a (click)='deleteImage()' class="delete-img">Delete</a>
+                    </div>
+
+                </div>
+                <div *ngIf="submitted && (!imagePreviewUrl && this.fileData == null)" class="invalid-feedback">Image is required </div>
+            </div>
+
+
+
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.DES}}</label>
+                <input class="form-control" id="description" formControlName="description" [ngClass]="{ 'is-invalid': submitted && check.description.errors }" placeholder={{constants.PRODUCT.DESCS}} required />
+                <div *ngIf="submitted && check.description.errors" class="invalid-feedback">
+                    <div *ngIf="check.description.errors.required">{{constants.PRODUCT.DESCERROR}}</div>
+                </div>
+            </div>
+            <div *ngIf="isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.DES}} : &nbsp; &nbsp; {{this.productManagementForm.value.description}}</label>
+            </div>
+
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.LOC}}</label>
+                <input class="form-control" id="location" formControlName="location" [ngClass]="{ 'is-invalid': submitted && check.location.errors }" placeholder={{constants.PRODUCT.LOCPL}} required />
+                <div *ngIf="submitted && check.location.errors" class="invalid-feedback">
+                    <div *ngIf="check.location.errors.required">{{constants.PRODUCT.LOCERR}}</div>
+                </div>
+            </div>
+            <div *ngIf="isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.DES}} : &nbsp; &nbsp; {{this.productManagementForm.value.description}}</label>
+            </div>
+
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>Product Property</label>
+                <table class="table table-bordered form-table" formArrayName="productProperty">
+                    <tr>
+
+                        <th width="150px"><button type="button" (click)="addQuantity()" class="btn btn-primary">Add</button></th>
+                    </tr>
+                    <tr *ngFor="let quantity of productProperty().controls; let i=index" [formGroupName]="i">
+                        <td>
+                            Name :
+                            <input type="text" formControlName="name" class="form-control">
+
+                        </td>
+                        <td>
+                            Value:
+                            <input type="text" name='proVal' formControlName="value" class="form-control">
+                        </td>
+                        <td class="td-remove" width="50px">
+                            <button (click)="removeQuantity(i)" class="btn-icon btn-danger"><i class="material-icons">remove</i></button>
+                        </td>
+
+                    </tr>
+                </table>
+                <div *ngIf="submitted && (!check.productProperty.value.length)" class="invalid-feedback">
+                    Atleast Add One Property
+                </div>
+
+            </div>
+            <!-- <div *ngIf="isView" class="input-field col s12">
+                <label class="field-label"> Product Property :</label>
+                <div *ngFor='let data of result'>
+                    <p>{{data.name}} &nbsp;{{data.value}}</p>
+                </div>
+            </div> -->
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.QUANTITY}}</label>
+                <input class="form-control" id="productQuantity" name='quantity' maxlength="8" formControlName="productQuantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" [ngClass]="{ 'is-invalid': submitted && check.productQuantity.errors }"
+                    placeholder={{constants.PRODUCT.PLACEQUA}} required />
+                <div *ngIf="submitted && check.productQuantity.errors" class="invalid-feedback">
+                    <div *ngIf="check.productQuantity.errors.required">{{constants.PRODUCT.QUAERROR}}</div>
+                </div>
+            </div>
+            <!-- <div *ngIf="isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.QUANTITY}} : &nbsp; &nbsp; {{this.productManagementForm.value.productQuantity}}</label>
+            </div> -->
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.PRICE}} --> INR</label>
+                <input class="form-control" id="productPrice" name='price' maxlength="10" formControlName="productPrice" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" [ngClass]="{ 'is-invalid': submitted && check.productPrice.errors }"
+                    placeholder={{constants.PRODUCT.PLACEPRICE}} required/>
+                <div *ngIf="submitted && check.productPrice.errors" class="invalid-feedback">
+                    <div *ngIf="check.productPrice.errors.required">{{constants.PRODUCT.PRIERROR}}</div>
+                </div>
+            </div>
+            <!-- <div *ngIf="isView" class="input-field col s12">
+                <label>{{constants.PRODUCT.PRICE}} : &nbsp; &nbsp; {{this.productManagementForm.value.productPrice}} INR</label>
+            </div> -->
+
+        </form>
+        <div class='buttom-section text-right mt-3'>
+            <button *ngIf="!isView" class='btn btn-primary btn-large' (click)='onSubmit()'>Save</button>
+            <button *ngIf="isView" (click)="changeEditPage()" class='btn btn-primary btn-large' (click)='onSubmit()'>Edit</button>
+            <button class='btn btn-default btn-large ml-3' (click)='listPath()'>Cancel</button>
+        </div>
+    </div>
+
+    <div class=" main-section" *ngIf="isView">
+        <table>
+
+            <tbody>
+                <tr>
+                    <td class="center" style="width: 200px;">
+                        <h6><b>{{constants.PRODUCT.NAME}} :</b></h6>
+
+                    </td>
+                    <td>
+                        <h6>{{this.productManagementForm.value.productName}}</h6>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="center" style="width: 200px;">
+                        <h6><b>{{constants.PRODUCT.CATEGORY}} :</b></h6>
+
+                    </td>
+                    <td>
+                        <h6>{{getCategories(this.productManagementForm.value.categoryID)}}</h6>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="center" style="width: 200px;">
+                        <h6><b>{{constants.PRODUCT.DES}} :</b></h6>
+
+                    </td>
+                    <td>
+                        <h6>{{this.productManagementForm.value.description}}</h6>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="center" style="width: 200px;">
+                        <h6><b> Product Property :</b></h6>
+
+                    </td>
+                    <td>
+                        <div *ngFor='let data of result'>
+                            <h6> *&nbsp;{{data.name}} : &nbsp;{{data.value}}</h6>
+                        </div>
+
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="center" style="width: 200px;">
+                        <h6><b> {{constants.PRODUCT.QUANTITY}} :</b></h6>
+                    </td>
+                    <td>
+                        <h6>{{this.productManagementForm.value.productQuantity}}</h6>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="center" style="width: 200px;">
+                        <h6><b> {{constants.PRODUCT.PRICE}} :</b></h6>
+
+
+                    </td>
+                    <td>
+                        <h6>{{this.productManagementForm.value.productPrice}} INR</h6>
+
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+        <div class='buttom-section text-right mt-3'>
+            <button *ngIf="isView" (click)="changeEditPage()" class='btn btn-primary btn-large' (click)='onSubmit()'>Edit</button>
+            <button class='btn btn-default btn-large ml-3' (click)='listPath()'>Cancel</button>
+        </div>
+    </div>
+</div>

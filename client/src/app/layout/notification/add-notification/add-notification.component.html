@@ -1,0 +1,73 @@
+<div class="main-container sidenav-rt">
+    <div class="row page-title">
+        <div *ngIf="!Notificationid && !isView" class="col s9 ">
+            <h5>Create Notification Management</h5>
+        </div>
+        <div *ngIf="Notificationid && !isView" class="col s9 ">
+            <h5>Edit Notification Management</h5>
+        </div>
+        <div *ngIf="isView" class="col s9 ">
+            <h5>View Notification Management</h5>
+        </div>
+    </div>
+    <div class=" main-section">
+        <form role='form' [formGroup]='NotificationAddForm' class="common-form">
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.NOTIFICATION.TITLE}}</label>
+                <input class="form-control" id="title" formControlName="title" [ngClass]="{ 'is-invalid': submitted && check.title.errors }" placeholder={{constants.NOTIFICATION.TITLES}} required />
+
+                <div *ngIf="submitted && check.title.errors" class="invalid-feedback">
+                    <div *ngIf="check.title.errors.required">{{constants.NOTIFICATION.TITLEERROR}}</div>
+                </div>
+
+            </div>
+
+            <div *ngIf="isView" class="input-field col s12">
+                <label class="field-label">{{constants.NOTIFICATION.TITLE}}</label>
+                <p>{{this.NotificationAddForm.value.title}}</p>
+            </div>
+            <div *ngIf="!isView" class="input-field col s12 text-box">
+
+                <label>{{constants.NOTIFICATION.DES}}</label>
+                <textarea class="materialize-textarea" id="description" formControlName="title" [ngClass]="{ 'is-invalid': submitted && check.description.errors }" placeholder={{constants.NOTIFICATION.DESCS}} required></textarea>
+                <div *ngIf="submitted && check.description.errors" class="invalid-feedback">
+                    <div *ngIf="check.description.errors.required">{{constants.NOTIFICATION.DESCERROR}}</div>
+                </div>
+
+            </div>
+
+            <div *ngIf="isView" class="input-field col s12">
+                <label class="field-label">{{constants.NOTIFICATION.DES}}</label>
+                <p>{{this.NotificationAddForm.value.description}}</p>
+            </div>
+
+            <div *ngIf="!isView" class="input-field col s12">
+                <label>{{constants.NOTIFICATION.TYPE}}</label>
+                <select class="browser-default" formControlName="type">
+                    <option *ngFor="let item of constants.NOTIFICATION.USERTYPE" value="{{item.id}}">{{ item.value}}</option>
+               </select>
+                <div *ngIf="submitted && check.type.errors" class="invalid-feedback">
+                    <div *ngIf="check.type.errors.required">{{constants.NOTIFICATION.TYPEERR}}</div>
+                </div>
+
+            </div>
+
+            <div *ngIf="isView" class="input-field col s12">
+                <label class="field-label">{{constants.NOTIFICATION.TITLE}}</label>
+                <p>{{this.NotificationAddForm.value.title}}</p>
+            </div>
+
+
+
+
+
+
+
+        </form>
+        <div class='buttom-section text-right mt-3'>
+            <button *ngIf="!isView" class='btn btn-primary' (click)='OnSubmit()'>Save</button>
+            <button *ngIf="isView" (click)="changeEditPage()" class='btn btn-primary' (click)='OnSubmit()'>Edit</button>
+            <button class='btn btn-default ml-2' (click)='listPage()'>Cancel</button>
+        </div>
+    </div>
+</div>

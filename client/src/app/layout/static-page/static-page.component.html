@@ -1,0 +1,47 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>News Letter Management</h5>
+        </div>
+        <div class="col m8 pr-0 right">
+            <button class="btn btn-primary waves-effect" (click)="createStaticPage()" style="float: right !important">
+                Add News Letter</button>
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor='let i=index let data of staticListDatas | paginate:{itemsPerPage: itemsPerPage, currentPage: page,totalItems:collection}'>
+
+                         <td scope="row">{{(page - 1) * 10 + i +1 }}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.type}}</td> 
+                        <td>
+                            <a (click)='viewPath(data.id)' class="act-btn"><i class="small material-icons">edit</i></a>&nbsp;
+                            <!-- <a href="#" (click)='delete(data.id)' class="act-btn pl-2"><i class="small material-icons">delete</i></a>  -->
+                            <!-- <a class="delete-icon" (click)="deleteCat(catList.id)"><i class="small material-icon" >delete</i> <span class="tooltip-text" >Delete</span></a> -->
+                         </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+ 
+
+    <div class='pagination-section mt-3'>
+                <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+            </div>
+ 
+</div>

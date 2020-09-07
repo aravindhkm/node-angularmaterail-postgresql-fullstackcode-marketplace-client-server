@@ -1,0 +1,77 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>Dashboard</h5>
+        </div>
+
+        <div class="col m8 header-right-sec pr-0">
+
+        </div>
+
+
+    </div>
+    <div class="dashboard-chart-sec">
+        <div class="row">
+            <div class="col s6 pl-0 dashdb-1">
+                <div class="card p-3">
+                    <h4 class="dashdb-title">Stock Report</h4>
+                    <div *ngIf='userChartData.length!=0'>
+                        <canvas baseChart [data]="userChartData" [colors]="ChartColors" [labels]="userChartLabels" [chartType]="userChartType">
+                        </canvas>
+                    </div>
+                    <div *ngIf='userChartData.length==0' class="center-align-content">
+                        <p style="text-align: center;"> NO DATA FOUND</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 pr-0 dashdb-2">
+                <div class="card p-3">
+                    <h4 class="dashdb-title">Sold Report</h4>
+                    <div *ngIf='doughnutChartData.length!=0'>
+                        <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [options]="ChartOptions" [chartType]="doughnutChartType">
+                        </canvas>
+                    </div>
+                    <div *ngIf='doughnutChartData.length==0' class="center-align-content">
+                        <p style="text-align: center;"> NO DATA FOUND</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+  
+        <div class="col s12 dashdb-3">
+            <div class="card p-3">
+                <h4 class="dashdb-title">Offer Report</h4>
+                <div *ngIf='barChartData.length!=0'>
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                </div>
+                <div *ngIf='barChartData.length==0'>
+                    <p style="text-align: center;"> NO DATA FOUND</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- <div class="card">
+        <div class="col-md-6 pt-2 pl-0">
+
+            <h4>Stock Report</h4>
+            <canvas baseChart [data]="userChartData" [colors]="ChartColors" [labels]="userChartLabels" [chartType]="userChartType">
+            </canvas>
+        </div>
+        <div class="col-md-6 pt-2 pl-0">
+            <h4>Sold Report</h4>
+            <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [options]="ChartOptions" [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+        <div class="col-md-6 pt-2 pl-0">
+
+            <div style="display: block;">
+                <h4>Offer Report</h4>
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                </canvas>
+            </div>
+        </div>
+    </div> -->
+</div>

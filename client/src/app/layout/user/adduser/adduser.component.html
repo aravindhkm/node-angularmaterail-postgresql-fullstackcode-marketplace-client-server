@@ -1,0 +1,258 @@
+<perfect-scrollbar class="">
+    <div class="main-container sidenav-rt">
+
+        <div class="row page-title">
+            <div *ngIf="!id && !isView" class="col s9 ">
+                <h5><b>Create User Management</b></h5>
+            </div>
+            <div *ngIf="id && !isView" class="col s9 ">
+                <h5><b>Edit User Management</b></h5>
+            </div>
+            <div *ngIf="isView" class="col s9 ">
+                <h5><b>View User Management</b></h5>
+            </div>
+            <div class="col s3 p-0">
+                <button class='btn-icon btn-block btn-close right' (click)='listPath()'><i class="material-icons">close</i></button>
+
+            </div>
+        </div>
+        <div class=" main-section" *ngIf="!isView">
+            <form role='form' [formGroup]='createUserForm' class="common-form " [class]="isView ? 'view-section p-0': ''">
+
+                <div *ngIf="!isView" class="input-field col s12">
+                    <label class="field-label"> Name </label>
+                    <input type='text' class='form-control' formControlName='firstName' (keypress)="restrictSpace($event)" placeholder="Enter Name" required>
+                    <div *ngIf="submitted && f.firstName.errors && f.firstName.errors.required" class="invalid-feedback"> Name is required </div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> Name :</label>
+                    <p>{{this.createUserForm.value.firstName}}</p>
+                </div> -->
+
+                <div *ngIf="!isView" class="input-field col s12">
+                    <label class="field-label">User Name </label>
+                    <input type='text' class='form-control' formControlName='userName' (keypress)="restrictSpace($event)" oninput="this.value = this.value.replace(/[^a-z.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter User Name" required>
+                    <div *ngIf="submitted && f.userName.errors && f.userName.errors.required" class="invalid-feedback">User Name is required </div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> User Name :</label>
+                    <p>{{this.createUserForm.value.userName}}</p>
+                </div> -->
+
+                <div *ngIf="!isView" class="input-field col s12">
+                    <label class="field-label">Phone number </label>
+                    <input type='text' class='form-control' formControlName='phoneNumber' placeholder="Enter Phone Number" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                    <div *ngIf="submitted && f.phoneNumber.errors && f.phoneNumber.errors.required" class="invalid-feedback">Phone Number is required </div>
+                    <div *ngIf="submitted && f.phoneNumber && f.phoneNumber.errors?.maxlength" class="invalid-feedback">Phone Number must be under 10 digit </div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> Phone Number :</label>
+                    <p>{{this.createUserForm.value.phoneNumber}}</p>
+                </div> -->
+
+                <div *ngIf="!isView" class="input-field col s12">
+                    <label class="field-label">Email </label>
+                    <input type='text' class='form-control' formControlName='email' (keypress)="restrictSpace($event)" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="Enter Email">
+                    <div *ngIf="submitted && f.email.errors && f.email.errors.required" class="invalid-feedback">Email is required </div>
+                    <div *ngIf="submitted && f.email.errors && f.email.errors.pattern" class="invalid-feedback">
+                        Email is invalid
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> Email :</label>
+                    <p>{{this.createUserForm.value.email}}</p>
+                </div> -->
+
+                <div *ngIf="!isView" class="input-field col s12">
+                    <label class="field-label">Password</label>
+                    <input type='password' class='form-control' formControlName='password' (keypress)="restrictSpace($event)" placeholder="Enter Password" minlength="6" required>
+                    <div *ngIf="submitted && f.password.errors && f.password.errors.required" class="invalid-feedback">
+                        Password is required</div>
+                    <div class="invalid-feedback" *ngIf="submitted && f.password.errors?.minlength"> Password must be minimum six characters
+                    </div>
+                </div>
+
+                <div *ngIf="!isView" class="input-field col s12 radio-button">
+                    <label class="field-label">Gender </label>
+
+                    <label class="radio-label">
+                                <input type="radio" value="male" formControlName="gender">
+                                  <span>male</span>
+                              </label>
+                    <label class="radio-label">
+                                <input type="radio" value="female" formControlName="gender">
+                                  <span>female</span>
+                              </label>
+                    <label class="radio-label">
+                                <input type="radio" value="others" formControlName="gender">
+                                  <span>other</span>
+                              </label>
+                    <div *ngIf="submitted && f.gender.errors && f.gender.errors.required" class="invalid-feedback"> Gender selection required</div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> Gender :</label>
+                    <p>{{this.createUserForm.value.gender}}</p>
+                </div> -->
+
+                <div *ngIf="!isView" class="input-field col s12 radio-button">
+                    <label class="field-label">Role </label>
+
+                    <label class="radio-label">
+                                <input type="radio" value="customer" formControlName="role">
+                                  <span>Customer</span>
+                              </label>
+                    <label class="radio-label">
+                                <input type="radio" value="business" formControlName="role">
+                                  <span>Business</span>
+                              </label>
+                    <label class="radio-label">
+                                <input type="radio" value="employee" formControlName="role">
+                                  <span>Employee</span>
+                              </label>
+                    <div *ngIf="submitted && f.role.errors && f.role.errors.required" class="invalid-feedback"> Role selection required</div>
+                </div>
+
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> Role :</label>
+                    <p>{{this.createUserForm.value.role}}</p>
+                </div> -->
+
+                <div *ngIf="!isView" class="input-field col s12 text-box">
+                    <label class="field-label">Address</label>
+                    <textarea type='text' id="textarea1" class="materialize-textarea" formControlName='address' (keypress)="restrictSpace($event)" placeholder="Enter Address" required></textarea>
+                    <div *ngIf="submitted && f.address.errors && f.address.errors.required" class="invalid-feedback">
+                        Address is required</div>
+                </div>
+                <!-- <div *ngIf="isView" class="input-field col s12">
+                    <label class="field-label"> Address :</label>
+                    <p>{{this.createUserForm.value.address}}</p>
+                </div> -->
+                <div class="input-field col s12">
+                    <label class="field-label">Image</label>
+                    <div class="image-upload-sec">
+                        <div class="img-prev">
+                            <span *ngIf="!imagePreviewUrl" class="prev-logo center-align-content"> <i class="fa fa-picture-o icon-lg"></i></span>
+                            <span *ngIf="imagePreviewUrl"><img [src]="imagePreviewUrl"
+                                     height="95"
+                                     width="120"></span>
+                        </div>
+                        <div *ngIf="!isView" class="custom-file">
+                            <label>
+                                <input type='file'
+                                       class=''
+                                       (change)="fileProgress($event)"
+                                       accept="image/*"
+                                       required>
+                                <span class="file-custom">Upload Image</span>
+                            </label>
+                            <a (click)='deleteImage()'>Delete</a>
+                        </div>
+
+                    </div>
+                    <div *ngIf="submitted && (!f.images.value && this.fileData == null)" class="invalid-feedback">Image is required </div>
+                </div>
+
+            </form>
+            <div class='buttom-section text-right mt-5'>
+                <button *ngIf="!isView" class='waves-effect waves-light btn btn-primary btn-large' (click)='onSubmit()'>Save</button>
+                <button *ngIf="isView" (click)="changeEditPage()" class='waves-effect waves-light btn btn-primary btn-large' (click)='onSubmit()'>Edit</button>
+                <button class='waves-effect waves-light btn btn-default ml-3  btn-large' (click)='listPath()'>Cancel</button>
+            </div>
+        </div>
+        <div class=" main-section" *ngIf="isView">
+            <table>
+
+                <tbody>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>Name  :</b></h6>
+
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.firstName}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>User Name :</b></h6>
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.userName}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>Phone Number :</b></h6>
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.phoneNumber}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b> Email :</b></h6>
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.email}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b> Gender :</b></h6>
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.gender}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b> Role :</b></h6>
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.role}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b> Address :</b></h6>
+                        </td>
+                        <td>
+                            <h6>{{this.createUserForm.value.address}}</h6>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="center" style="width: 200px;">
+                            <h6><b>Image :</b></h6>
+
+                        </td>
+                        <td>
+                            <div class="img-prev">
+                                <span *ngIf="!imagePreviewUrl" class="prev-logo center-align-content"> <i class="fa fa-picture-o icon-lg"></i></span>
+                                <span *ngIf="imagePreviewUrl"><img [src]="imagePreviewUrl"
+                                         height="95"
+                                         width="120"></span>
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+            <div class='buttom-section text-right mt-3'>
+                <button *ngIf="isView" (click)="changeEditPage()" class='waves-effect waves-light btn btn-primary btn-large' (click)='onSubmit()'>Edit</button>
+                <button class='waves-effect waves-light btn btn-default ml-3  btn-large' (click)='listPath()'>Cancel</button>
+
+            </div>
+        </div>
+
+    </div>
+</perfect-scrollbar>

@@ -1,0 +1,174 @@
+<div class="login-page">
+
+    <div *ngIf='login' class="row login-section m-0">
+        <div class="col s6 p-0 login-left hide-on-small-only">
+            <div class="login-img"></div>
+        </div>
+        <div class="col12 s12 m6 login-box">
+
+
+            <form class="common-form container" [formGroup]="authForm" (ngSubmit)="onLoggedin()">
+
+                <div class="login-logo  center">
+                    <a href="#">
+                        <img src="assets/images/logo.png" width="200">
+                    </a>
+                    <p class="sub-text">Welcome back! Please login to your account</p>
+                </div>
+                <div class="login-form-sec p-3  mt-5">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input formControlName="email" autocomplete="nope" type="text" ng-model="name" class="form-control input-underline input-lg" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" id="" placeholder="{{'Email'}}" [ngClass]="{ 'is-invalid': submitted && check.controls.email.errors }"
+                                required/>
+                            <div *ngIf="submitted && check.controls.email.errors && check.controls.email.errors.required" class="error">{{constants.EMAIL_REQRD}}</div>
+                            <div *ngIf="submitted && check.controls.email.errors &&  check.controls.email.errors.pattern" class="error">{{constants.VALID_EMAIL}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input autocomplete="nope" formControlName="password" class="form-control" placeholder="Password" type="password" class="form-control input-underline input-lg" id="" placeholder="{{'Password'}}" [ngClass]="{ 'is-invalid': submitted && check.controls.password.errors }"
+                                required/>
+                            <div *ngIf="submitted && check.controls.password.errors" class="invalid-feedback">
+                                <div *ngIf="check.controls.password.errors.required" class="error">{{constants.PSWD_REQRD}}</div>
+                            </div>
+
+                            <!-- <label for="password">Password</label> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6 checkbox-sec p-0">
+                            <label>
+                            <input type="checkbox" class="filled-in" formControlName='rememberMe'  />
+                            <span>Remember me</span>
+                          </label>
+                        </div>
+                        <div class="col s6 forget-txt p-0">
+                            <a href='#' (click)="forgotPassword()" class="">Forgot Password?</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row center pt-3">
+                    <button class="btn btn-primary btn-large" type="submit" name="action">Login
+						
+					</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Forget password -->
+
+    <div *ngIf='!login && !otp && !confirmPassword' class="row login-section m-0 ">
+        <div class="col s6 p0 login-left">
+            <div class="login-img"></div>
+        </div>
+        <div class="col s6 login-box mt-5">
+
+
+            <form class="common-form container" [formGroup]="authForm" (ngSubmit)="onLoggedin()">
+
+                <div class="login-logo  center mt-5">
+                    <a href="#">
+                        <img src="assets/images/logo.png" width="200">
+                    </a>
+                    <p class="sub-text">Enter your email and we send you a otp</p>
+
+                </div>
+                <div class="login-form-sec p-3  mt-5">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input formControlName="email" autocomplete="nope" type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="{{'Email'}}" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [ngClass]="{ 'is-invalid': submitted && check.controls.email.errors }"
+                                required/>
+                            <div *ngIf="submitted && check.controls.email.errors && check.controls.email.errors.required" class="error">{{constants.EMAIL_REQRD}}</div>
+                            <div *ngIf="check.controls.email.errors && check.controls.email.errors.pattern" class="error">{{constants.VALID_EMAIL}}</div>
+                        </div>
+                    </div>
+
+                    <div class="row center pt-3">
+                        <button class="btn btn-primary " type="button" (click)='backPath()' name="action">back to login</button>&nbsp;
+                        <button class="btn btn-primary " type="submit" name="action">Submit    
+                </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Otp verification -->
+
+    <div *ngIf='otp' class="row login-section m-0">
+        <div class="col s6 p0 login-left">
+            <div class="login-img"></div>
+        </div>
+        <div class="col s6 login-box mt-5">
+
+
+            <form class="common-form container" [formGroup]="authForm" (ngSubmit)="onLoggedin()">
+
+                <div class="login-logo  center mt-5">
+                    <a href="#">
+                        <img src="assets/images/logo.png" width="200">
+                    </a>
+                    <p class="sub-text">Enter your Otp</p>
+
+                </div>
+                <div class="login-form-sec p-3  mt-5">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input formControlName="otp" autocomplete="nope" type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Enter the Otp" [ngClass]="{ 'is-invalid': submitted && check.controls.email.errors }" required/>
+                            <div class="error" *ngIf='submitted && check.controls.otp.errors && check.controls.otp.errors.required'>Otp is required</div>
+                        </div>
+                    </div>
+
+                    <div class="row center pt-3">
+                        <button class="btn btn-primary " type="button" (click)='backPath()' name="action">back to login</button>&nbsp;
+                        <button class="btn btn-primary" type="submit" name="action">Submit    
+                </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- conform password -->
+
+    <div *ngIf='confirmPassword' class="row login-section m-0">
+        <div class="col s6 p0 login-left">
+            <div class="login-img"></div>
+        </div>
+        <div class="col s6 login-box mt-5">
+
+            <form class="common-form container" [formGroup]="authForm" (ngSubmit)="onLoggedin()">
+                <div class="login-logo  center mt-5">
+                    <a><img src="assets/images/logo.png" width="200"> </a>
+                    <p class="sub-text">Enter your New Password</p>
+                </div>
+
+                <div class="login-form-sec p-3  mt-5">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input formControlName="newPassword" autocomplete="nope" type="password" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="New Password" required/>
+                            <div class='error' *ngIf='submitted && check.controls.newPassword.errors && check.controls.newPassword.errors.required'>New Password is required</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input formControlName="confirmPassword" autocomplete="nope" type="password" class="form-control input-underline input-lg" id="" placeholder="Re-enter your new password" required/>
+                            <div class="error" *ngIf='submitted && check.value.confirmPassword &&  check.value.newPassword && (check.value.newPassword != check.value.confirmPassword)'>Must be same as new password</div>
+                            <div class='error' *ngIf='submitted && check.controls.confirmPassword.errors && check.controls.confirmPassword.errors.required'>Confirm Password is required</div>
+                        </div>
+                    </div>
+
+                    <div class="row center pt-3">
+                        <button class="btn btn-primary " type="button" (click)='backPath()' name="action">back to login</button>&nbsp;
+                        <button class="btn btn-primary " type="submit" name="action">Submit    
+                </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

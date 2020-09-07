@@ -1,0 +1,120 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>Notification Center</h5>
+        </div>
+        <div class="col m8 right">
+            <button class="btn btn-primary waves-effect waves-light" (click)="sendNotificationMessage('myModal')" style="float: right !important">
+                Send Notification</button>
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Select
+                        </th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngIf='notificationData.length != 0'>
+                    <tr *ngFor='let i=index let catList of notificationData | paginate:{itemsPerPage: itemsPerPage, currentPage: noOfpages,totalItems:collection}'>
+                        <td>
+                            <label>
+                                    <!-- <input type="checkbox" #myCheck [checked]="isChecked" value="{{catList.id}}" (change)="checkbox(catList)"/> -->
+                                    <input  name="off" type="checkbox"  [(ngModel)]="catList.checked" (change)="checkbox(catList.id)">
+                                    <!-- <input type="checkbox" [checked]="isChecked" (change)='getCheckboxValues($event,catList)'/> -->
+                                    <!-- <input type="checkbox" class="input-sm" ng-checked="checkSelected(name.id)" ng-click="addName(name.id)" /> -->
+                                    <!-- <input type="checkbox" name="websitecheck" [checked]="isChecked" value="{{catList}}"> -->
+                                    <span></span>
+                                </label>
+                        </td>
+
+                        <td>{{catList.userName}}</td>
+                        <td>{{catList.email}}</td>
+
+
+
+                    </tr>
+                </tbody>
+                <tbody *ngIf='notificationData.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div class='pagination-section mt-3' *ngIf='notificationData.length>0'>
+        <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+    </div>
+
+
+</div>
+<!-- Modal Structure -->
+<dialog id="myDialog" class="modalDialog">
+    <div class="modal-content-sec">
+        <div>
+            <a (click)='close()' title="Close" class="close btn-danger">X</a>
+            <h4>Send Notification</h4>
+            <form role='form' [formGroup]='NotificationAddForm' class="common-form">
+                <div class="input-field col s12">
+                    <label>Selected Users</label>
+                    <p>{{delarr.length}}</p>
+
+
+                </div>
+                <div class="input-field col s12">
+                    <label>{{constants.NOTIFICATION.TITLE}}</label>
+                    <input class="form-control" id="title" formControlName="title" [ngClass]="{ 'is-invalid': submitted && check.title.errors }" placeholder={{constants.NOTIFICATION.TITLES}} required />
+
+                    <div *ngIf="submitted && check.title.errors" class="invalid-feedback">
+                        <div *ngIf="check.title.errors.required">{{constants.NOTIFICATION.TITLEERROR}}</div>
+                    </div>
+
+                </div>
+
+
+                <div class="input-field col s12 text-box">
+
+                    <label>{{constants.NOTIFICATION.DES}}</label>
+                    <textarea class="materialize-textarea" id="description" formControlName="description" [ngClass]="{ 'is-invalid': submitted && check.description.errors }" placeholder={{constants.NOTIFICATION.DESCS}} required></textarea>
+                    <div *ngIf="submitted && check.description.errors" class="invalid-feedback">
+                        <div *ngIf="check.description.errors.required">{{constants.NOTIFICATION.DESCERROR}}</div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="input-field col s12">
+                    <label>{{constants.NOTIFICATION.TYPE}}</label>
+                    <select class="browser-default" formControlName="type" [ngClass]="{ 'is-invalid': submitted && check.type.errors }" required>
+                        <option *ngFor="let item of constants.NOTIFICATION.USERTYPE" value="{{item.id}}">{{ item.value}}</option>
+                   </select>
+                    <div *ngIf="submitted && check.type.errors" class="invalid-feedback">
+                        <div *ngIf="check.type.errors.required">{{constants.NOTIFICATION.TYPEERR}}</div>
+                    </div>
+
+                </div>
+
+
+            </form>
+            <div class='buttom-section text-right mt-3'>
+                <button *ngIf="!isView" class='btn btn-primary' (click)='OnSubmit()'>Send</button>
+                <button *ngIf="!isView" class='btn btn-default ml-2' (click)='close()'>Cancel</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</dialog>

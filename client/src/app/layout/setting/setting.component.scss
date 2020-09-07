@@ -1,0 +1,137 @@
+
+.btn btn-primary waves-effect waves-light {
+    float: right !important;
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+    top: 20px;
+    left: 10px;
+}
+
+.switchStatus {
+    position: relative;
+    display: inline-block;
+    width: 77px;
+    height: 29px;
+    left: 0px;
+}
+
+.switchStatus input {
+    display: none;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ff4c4c;
+    -webkit-transition: .4s;
+    transition: .4s;
+    // position: absolute;
+    // content: "";
+    // height: 16px;
+    // width: 16px;
+    // left: 1px;
+    // bottom: 7px;
+    // background-color: white;
+    // transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    left: 9px;
+    bottom: 6px;
+    // height: 26px;
+    // width: 26px;
+    height: 20px;
+    width: 19px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.sliderStatus:before {
+    position: absolute;
+    content: "";
+    // height: 26px;
+    // width: 26px;
+    height: 20px;
+    width: 19px;
+    left: 2px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2ab934;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(55px);
+    -ms-transform: translateX(55px);
+    transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+
+.on {
+    display: none;
+    position: absolute;
+    color: white;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 37%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+}
+
+.off {
+    color: white;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 60%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+}
+
+input:checked+.slider .on {
+    display: block;
+}
+
+input:checked+.slider .off {
+    display: none;
+}
+
+
+/*--------- END --------*/
+
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

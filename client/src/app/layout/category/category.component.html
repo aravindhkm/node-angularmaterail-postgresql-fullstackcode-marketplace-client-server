@@ -1,0 +1,93 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col m4 pl-0">
+            <h5>Category Management</h5>
+        </div>
+        <div class="col m8 header-right-sec pr-0">
+            <!-- <div class="col pr-0">
+                <button class="btn btn-primary ml-auto" (click)="excelExport()">Export
+                    Csv</button>
+            </div> -->
+            <form class="common-form row m-0" #productPageSearchForm='ngForm' (ngSubmit)='searchFilter(productPageSearchForm.value)'>
+
+                <div class="col m-0 p-0">
+                    <button class="btn-icon btn-block btn-reset" type='button' (click)="onReset()">
+                <i class="material-icons">autorenew</i>
+                </button>
+                </div>
+                <div class="col nav-wrapper s6">
+                    <div class="input-group">
+                        <div class="input-field search-field">
+                            <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                        </div>
+                        <span class="input-group-addon" type='button' (click)='searchFilter(productPageSearchForm.value)'>
+                  <i class="material-icons">search</i>
+                </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped ">
+                <thead>
+                    <tr>
+                        <th class="xs-sec center">S No</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th class="sm-sec center"> Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='categoryLists.length != 0'>
+                    <tr *ngFor='let i=index let catList of categoryLists | paginate:{itemsPerPage: itemsPerPage, currentPage: noOfpages,totalItems:collection}'>
+                        <td class="center">{{(noOfpages - 1 ) * itemsPerPage + i + 1}}</td>
+                        <td>{{catList.name}}</td>
+                        <td>{{catList.type}}</td>
+                        <td style="display: block;width: 300px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;line-height: 55px;">{{catList.description}}</td>
+                        <td>
+                            <div *ngIf='!catList.imageName'>
+                                <a class="act-btn pl-2"><i class="small material-icons icon-airplay">block</i></a>
+
+                            </div>
+                            <div *ngIf='catList.imageName'>
+                                <img [attr.src]="catpath+catList.imageName" width="40px" height="40px" />
+
+                            </div>
+
+                        </td>
+
+                        <td class="center">
+                            <a (click)="create($event,catList.id,true)" class="act-btn"><i class="small material-icons icon-view">remove_red_eye</i></a>
+                            <a (click)="create($event,catList.id,false)" class="act-btn pl-2"><i class="small material-icons icon-edit">edit</i></a>
+                            <!-- <a (click)="deleteCat(catList.id)" class="act-btn pl-2"><i class="small material-icons icon-dele">delete</i></a> -->
+                            <!-- <a (click)="blockUser(data.id)"
+                   class="act-btn pl-2"><i class="small material-icons icon-airplay">block</i></a>
+              -->
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='categoryLists.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div *ngIf="categoryLists.length > 0" class='pagination-section mt-3'>
+    <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+</div>
+<div *ngIf="hideShow" id="mySidepanel" class="outer-show-sec">
+
+    <div class="show-form animate__animated animate__fadeInRight">
+        <!-- <button (click)="hideShowForm()" class="close-button"><i class="material-icons">close</i></button> -->
+        <app-add-category [editId]="editId" [isView]="isView" (categoryForm)="hideShowForm()"></app-add-category>
+    </div>
+</div>
+<div class="button-section fixed-action-btn direction-top" (click)="create($event,'',false)">
+    <button class="btn-floating btn-primary btn-icon-add btn-large"><i class="material-icons">add</i></button>
+</div>

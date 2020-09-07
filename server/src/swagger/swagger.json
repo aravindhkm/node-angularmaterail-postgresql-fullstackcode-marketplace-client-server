@@ -1,0 +1,1736 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "MarketPlace",
+		"version": "1.0",
+		"title": "MarketPlace",
+		"termsOfService": "https://marketplace.com/terms/",
+		"contact": {
+			"email": "team@marketplace.com"
+		},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+		}
+	},
+	"tags": [
+		{
+			"name": "Authentication",
+			"description": "Auth Module"
+		},
+		{
+			"name": "User",
+			"description": "User Module"
+		},
+		{
+			"name": "Category",
+			"description": "Category Module"
+		},
+		{
+			"name": "Product",
+			"description": "Product Module"
+		},
+		{
+			"name": "Shared",
+			"description": "Report / Template / Support / Notification / Banner Modules"
+		},
+		{
+			"name": "Chat",
+			"description": "Chat Modules"
+		}
+	],
+	"paths": {
+		"/auth/login": {
+			"post": {
+				"summary": "Login",
+				"tags": ["Authentication"],
+				"description": "Login and generate Access Token",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "loginObject",
+						"schema": {
+							"$ref": "#/definitions/loginObject"
+						},
+						"description": "Login Object"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successfull Login return User Object & Token"
+					},
+					"401": {
+						"description": "Password Mismatch"
+					},
+					"404": {
+						"description": "User Not Found"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/auth/forgotPassword": {
+			"post": {
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"tags": ["Authentication"],
+				"summary": "Forgot Password",
+				"description": "Forgot Password",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "forgotObject",
+						"description": "Forgot Password Object",
+						"schema": {
+							"$ref": "#/definitions/forgotObject"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Updated"
+					},
+					"401": {
+						"description": "Unauthorised"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/auth/resetPassword": {
+			"post": {
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"tags": ["Authentication"],
+				"summary": "Reset Password.",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Successfull change"
+					},
+					"401": {
+						"description": "Unauthorised"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				},
+				"parameters": [
+					{
+						"in": "body",
+						"name": "Request Password reset Object",
+						"description": "Request Password Reset Object",
+						"schema": {
+							"required": ["email", "password"],
+							"properties": {
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"/auth/verifyOtp": {
+			"post": {
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"tags": ["Authentication"],
+				"summary": "Verify OTP.",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "Request OTP Value",
+						"description": "Request OTP Value",
+						"schema": {
+							"required": ["email", "otp", "type"],
+							"properties": {
+								"email": {
+									"type": "string"
+								},
+								"otp": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string",
+									"example": "forgotPassword or signup"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User Object"
+					},
+					"401": {
+						"description": "Unauthorised"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/auth/socialLogin": {
+			"post": {
+				"security": [
+					{
+						"ApiKeyAuth": []
+					}
+				],
+				"tags": ["Authentication"],
+				"summary": "Social Login",
+				"description": "Google and Facebook Authentication",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "Social Login",
+						"description": "Social Login Param",
+						"schema": {
+							"required": [
+								"provider",
+								"id",
+								"name",
+								"username",
+								"email"
+							],
+							"properties": {
+								"provider": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"name": {
+									"type": "string"
+								},
+								"username": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"mobile": {
+									"type": "string"
+								},
+								"displayName": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Succsessful Log Out"
+					},
+					"401": {
+						"description": "Unauthorised"
+					}
+				}
+			}
+		},
+		"/users/create": {
+			"post": {
+				"tags": ["User"],
+				"summary": "Create / Update User",
+				"description": "Create / Update User",
+				"consumes": ["application/json", "multipart/form-data"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "userData",
+						"in": "formData",
+						"description": "User Inputs",
+						"schema": {
+							"$ref": "#/definitions/userData"
+						}
+					},
+					{
+						"in": "formData",
+						"name": "profileImage",
+						"description": "User profile image",
+						"type": "file"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/users/list": {
+			"get": {
+				"tags": ["User"],
+				"summary": "Get All / Single Users List",
+				"description": "Get All / Single Users",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"description": "page",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"description": "limit",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "searchTxt",
+						"description": "searchTxt",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "userId",
+						"description": "Only this param for Get Single User Deatil",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "type",
+						"description": "type",
+						"example": "export or profile",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/users/deleteUser": {
+			"delete": {
+				"tags": ["User"],
+				"summary": "Delete User",
+				"description": "Delete user",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "userId",
+						"description": "User id",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"401": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/users/createFollowers": {
+			"post": {
+				"tags": ["User"],
+				"summary": "Create Followers",
+				"description": "Create User Followers",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Followers Details",
+						"description": "Request for Followers Details",
+						"schema": {
+							"required": ["userId", "toUserId"],
+							"properties": {
+								"userId": {
+									"type": "string"
+								},
+								"toUserId": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/users/resendOtp": {
+			"post": {
+				"tags": ["User"],
+				"summary": "Resend OTP Value",
+				"description": "Resend OTP Value",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "resendObject",
+						"description": "Resend OTP Object",
+						"schema": {
+							"$ref": "#/definitions/resendObject"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"401": {
+						"description": "Unauthorised"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/users/updateStatus": {
+			"post": {
+				"tags": ["User"],
+				"summary": "Update User Status or Block",
+				"description": "Update User Status or Block",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for User Details",
+						"description": "Request for User Details",
+						"schema": {
+							"required": ["userId"],
+							"properties": {
+								"userId": {
+									"type": "number"
+								},
+								"type": {
+									"type": "string",
+									"example": "setting or block",
+									"description": "Only this param for Update User settings"
+								},
+								"status": {
+									"type": "boolean",
+									"example": "true or false"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/categories/create": {
+			"post": {
+				"tags": ["Category"],
+				"summary": "Create / Update Category",
+				"description": "Create / Update Category",
+				"consumes": ["application/json", "multipart/form-data"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "categoryData",
+						"in": "formData",
+						"description": "Category Inputs",
+						"schema": {
+							"$ref": "#/definitions/categoryData"
+						}
+					},
+					{
+						"in": "formData",
+						"name": "categoryImage",
+						"description": "Cateogory image",
+						"type": "file"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/categories/list": {
+			"get": {
+				"tags": ["Category"],
+				"summary": "Get All / Single Categories List",
+				"description": "Get All / Single Categories",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"description": "page",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"description": "limit",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "searchTxt",
+						"description": "searchTxt",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "categoryId",
+						"description": "Only this param for Get Single Category Detail",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/categories/getCategories": {
+			"get": {
+				"tags": ["Category"],
+				"summary": "Get Categories With Product Count",
+				"description": "Get Categories With Product Count",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/categories/deleteCategory": {
+			"delete": {
+				"tags": ["Category"],
+				"summary": "Delete Category",
+				"description": "Delete Category",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "categoryId",
+						"description": "Category ID",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"401": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/products/create": {
+			"post": {
+				"tags": ["Product"],
+				"summary": "Create / Update Product",
+				"description": "Create / Update Product",
+				"consumes": ["application/json", "multipart/form-data"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "productData",
+						"in": "formData",
+						"description": "Products Inputs",
+						"schema": {
+							"$ref": "#/definitions/productData"
+						}
+					},
+					{
+						"in": "formData",
+						"name": "productImage",
+						"description": "Product image",
+						"type": "file"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/products/list": {
+			"get": {
+				"tags": ["Product"],
+				"summary": "Get All / Single Products List",
+				"description": "Get All / Single Products",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"description": "page",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"description": "limit",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "searchTxt",
+						"description": "searchTxt",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "productId",
+						"description": "Only this param for Get Single Product Deatil",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "userId",
+						"description": "Only this param for Get User Based Products",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "categoryId",
+						"description": "Only this param for Get Category Based Products",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/products/deleteProduct": {
+			"delete": {
+				"tags": ["Product"],
+				"summary": "Delete Product",
+				"description": "Delete Product",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "productId",
+						"description": "productId",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/products/updateStatus": {
+			"post": {
+				"tags": ["Product"],
+				"summary": "Update Product Status Block or not",
+				"description": "Update User Status Block or not",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Product Details",
+						"description": "Request for Product Details",
+						"schema": {
+							"required": ["productId"],
+							"properties": {
+								"productId": {
+									"type": "string"
+								},
+								"isBlock": {
+									"type": "boolean",
+									"example": "true or false"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/products/createFavourite": {
+			"post": {
+				"tags": ["Product"],
+				"summary": "Create Favourite Products",
+				"description": "Create Favourite Products",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Product Details",
+						"description": "Request for Product Details",
+						"schema": {
+							"required": ["userId", "productId", "type"],
+							"properties": {
+								"userId": {
+									"type": "string"
+								},
+								"productId": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string",
+									"example": "add or remove"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/products/getFavourites": {
+			"get": {
+				"tags": ["Product"],
+				"summary": "Get Favourites Products List",
+				"description": "Get Favourites Products List",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "userId",
+						"required": true,
+						"description": "userId",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/shared/createReport": {
+			"post": {
+				"tags": ["Shared"],
+				"summary": "Create User / Product Report",
+				"description": "Create User / Product Report",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Report Details",
+						"description": "Request for Report Details",
+						"schema": {
+							"required": ["userId"],
+							"properties": {
+								"userId": {
+									"type": "number"
+								},
+								"productId": {
+									"type": "number"
+								},
+								"reason": {
+									"type": "string"
+								},
+								"description": {
+									"type": "string"
+								},
+								"reportType": {
+									"type": "number",
+									"example": "user or product"
+								},
+								"status": {
+									"type": "boolean",
+									"example": "true or false"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/shared/createSupport": {
+			"post": {
+				"tags": ["Shared"],
+				"summary": "Create Support",
+				"description": "Create Support",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Contact Form Support Details",
+						"description": "Request for Contact Form Support Details",
+						"schema": {
+							"required": ["userId"],
+							"properties": {
+								"userId": {
+									"type": "number"
+								},
+								"name": {
+									"type": "string"
+								},
+								"description": {
+									"type": "string"
+								},
+								"type": {
+									"type": "number",
+									"example": "feedback or others"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/shared/createBanner": {
+			"post": {
+				"tags": ["Shared"],
+				"summary": "Create Banner",
+				"description": "Create Banner",
+				"consumes": ["application/json", "multipart/form-data"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "bannerData",
+						"in": "formData",
+						"description": "Banner Inputs",
+						"schema": {
+							"$ref": "#/definitions/bannerData"
+						}
+					},
+					{
+						"in": "formData",
+						"name": "bannerImage",
+						"description": "Banner image",
+						"type": "file"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/shared/createTemplate": {
+			"post": {
+				"tags": ["Shared"],
+				"summary": "Create / Update Email Template",
+				"description": "Create / Update Email Template",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Template Details",
+						"description": "Request for Template Details",
+						"schema": {
+							"required": ["name", "templateValue", "type"],
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"templateValue": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string",
+									"example": "forgotPassword or signup"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/shared/createNotification": {
+			"post": {
+				"tags": ["Shared"],
+				"summary": "Create Notification",
+				"description": "Create Notification",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Notification Details",
+						"description": "Request for Notification Details",
+						"schema": {
+							"required": ["userId", "toUserId", "title", "type"],
+							"properties": {
+								"userId": {
+									"type": "number"
+								},
+								"toUserId": {
+									"type": "number"
+								},
+								"title": {
+									"type": "string"
+								},
+								"description": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string",
+									"example": "important or general"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/shared/deleteBanner": {
+			"delete": {
+				"tags": ["Shared"],
+				"summary": "Delete Banner",
+				"description": "Delete Banner",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "bannerId",
+						"description": "bannerId",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"401": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/shared/list": {
+			"get": {
+				"tags": ["Shared"],
+				"summary": "Get Lists for Report / Supports / Banners / Templates / Settings / Notifications Module",
+				"description": "Get Lists for Report / Supports / Banners / Templates / Settings / Notifications",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"description": "page",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"description": "limit",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "searchTxt",
+						"description": "searchTxt",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "type",
+						"example": "report or setting or banner or notification or support or template",
+						"description": "report or setting or banner or notification or support or template",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "bannerId",
+						"description": "Only this param for Get Single Banner Detail",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "templateId",
+						"description": "Only this param for Get Single Template Detail",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "supportId",
+						"description": "Only this param for Get Single Support Detail",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/shared/responses": {
+			"get": {
+				"tags": ["Shared"],
+				"summary": "Get Lists for Response Rate Module",
+				"description": "Get Lists for Response Rate",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"description": "page",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"description": "limit",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "searchTxt",
+						"description": "searchTxt",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/shared/updateStatus": {
+			"post": {
+				"tags": ["Shared"],
+				"summary": "Update Status",
+				"description": "Update Status",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Input Details",
+						"description": "Request for Input Details",
+						"schema": {
+							"properties": {
+								"reportId": {
+									"type": "number",
+									"description": "Only this param for Update User / Product Report"
+								},
+								"supportId": {
+									"type": "number",
+									"description": "Only this param for Update User / Product Report"
+								},
+								"settingId": {
+									"type": "number"
+								},
+								"status": {
+									"type": "string",
+									"example": "block or ignore or pending or completed"
+								},
+								"type": {
+									"type": "string",
+									"description": "Only this param for Update User / Product Report",
+									"example": "user or product"
+								},
+								"userId": {
+									"type": "number",
+									"description": "Only this param for Update User Report"
+								},
+								"productId": {
+									"type": "number",
+									"description": "Only this param for Update Product Report"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/chats/create": {
+			"post": {
+				"tags": ["Chat"],
+				"summary": "Create Channel For Chat",
+				"description": "Create Channel For Chat",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Input Details",
+						"description": "Request for Input Details",
+						"schema": {
+							"required": ["userId", "productId", "members"],
+							"properties": {
+								"userId": {
+									"type": "number"
+								},
+								"productId": {
+									"type": "number"
+								},
+								"members": {
+									"type": "array",
+									"example": "[1,2]"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		},
+		"/chats/getChannels": {
+			"get": {
+				"tags": ["Chat"],
+				"summary": "Get All / Single Channels List",
+				"description": "Get All / Single Channels",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"description": "page",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"description": "limit",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "searchTxt",
+						"description": "searchTxt",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/chats/list": {
+			"get": {
+				"tags": ["Chat"],
+				"summary": "Get All / Single Chats List",
+				"description": "Get All / Single Chats",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "channelId",
+						"required": true,
+						"description": "channelId",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed"
+					}
+				}
+			}
+		},
+		"/chats/updateStatus": {
+			"post": {
+				"tags": ["Chat"],
+				"summary": "Update Chat Offer Status Accept or not",
+				"description": "Update Chat Offer Status Accept or not",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "Authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "Request for Offer Details",
+						"description": "Request for Offer Details",
+						"schema": {
+							"required": ["offerId", "chatId"],
+							"properties": {
+								"productId": {
+									"type": "string"
+								},
+								"chatId": {
+									"type": "string"
+								},
+								"status": {
+									"type": "string",
+									"example": "accept or decline"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Request Failed."
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"loginObject": {
+			"type": "object",
+			"required": ["email", "password"],
+			"properties": {
+				"userName": {
+					"type": "string"
+				},
+				"mobile": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"example": "web"
+				}
+			}
+		},
+		"resendObject": {
+			"type": "object",
+			"required": ["email"],
+			"properties": {
+				"email": {
+					"type": "string"
+				}
+			}
+		},
+		"forgotObject": {
+			"type": "object",
+			"required": ["email"],
+			"properties": {
+				"email": {
+					"type": "string"
+				}
+			}
+		},
+		"userData": {
+			"type": "object",
+			"required": ["userName", "password", "email", "mobile"],
+			"properties": {
+				"firstName": {
+					"type": "string",
+					"example": "Name"
+				},
+				"lastName": {
+					"type": "string",
+					"example": "Name"
+				},
+				"userName": {
+					"type": "string",
+					"example": "Name"
+				},
+				"companyId": {
+					"type": "number",
+					"example": "1"
+				},
+				"serviceId": {
+					"type": "number",
+					"example": "1"
+				},
+				"displayName": {
+					"type": "string",
+					"example": "Name"
+				},
+				"email": {
+					"type": "string",
+					"example": "mail@example.com"
+				},
+				"gender": {
+					"type": "string",
+					"example": "male"
+				},
+				"roleName": {
+					"type": "string",
+					"example": "customer or business or employee"
+				},
+				"type": {
+					"type": "string",
+					"example": "social or normal"
+				},
+				"mobile": {
+					"type": "string",
+					"example": "9876543987"
+				},
+				"password": {
+					"type": "string",
+					"example": "password",
+					"description": "plain text password"
+				},
+				"userId": {
+					"type": "number",
+					"example": "1",
+					"description": "Only this param for update user"
+				}
+			}
+		},
+		"categoryData": {
+			"type": "object",
+			"required": ["name", "type"],
+			"properties": {
+				"name": {
+					"type": "string",
+					"example": "Name"
+				},
+				"description": {
+					"type": "string",
+					"example": "Name"
+				},
+				"type": {
+					"type": "string",
+					"example": "category or service"
+				},
+				"categoryId": {
+					"type": "string",
+					"example": "1",
+					"description": "Only this param for update category"
+				}
+			}
+		},
+		"productData": {
+			"type": "object",
+			"required": ["userId", "categoryId", "productName"],
+			"properties": {
+				"userId": {
+					"type": "number",
+					"example": "Name"
+				},
+				"categoryId": {
+					"type": "number",
+					"example": "Name"
+				},
+				"productName": {
+					"type": "string",
+					"example": "Test Product"
+				},
+				"description": {
+					"type": "string",
+					"example": "Name"
+				},
+				"location": {
+					"type": "string",
+					"example": "Madurai"
+				},
+				"quantity": {
+					"type": "number",
+					"example": "1"
+				},
+				"price": {
+					"type": "number",
+					"example": "100"
+				},
+				"status": {
+					"type": "string",
+					"example": "sold or instock or outstock"
+				},
+				"propertyJson": {
+					"type": "string",
+					"example": "[{name:size, value:10mm,name:color,value:red}]"
+				},
+				"isBlock": {
+					"type": "boolean",
+					"example": "true or false"
+				},
+				"productId": {
+					"type": "number",
+					"example": "1",
+					"description": "Only this param for update product"
+				}
+			}
+		},
+		"bannerData": {
+			"type": "object",
+			"required": ["name"],
+			"properties": {
+				"name": {
+					"type": "string",
+					"example": "Test Product"
+				},
+				"description": {
+					"type": "string",
+					"example": "Name"
+				},
+				"bannerId": {
+					"type": "number",
+					"example": "1",
+					"description": "Only this param for update banner"
+				}
+			}
+		}
+	},
+	"securityDefinitions": {
+		"ApiKeyAuth": {
+			"type": "apiKey",
+			"in": "header",
+			"name": "Authorization"
+		},
+		"Localization": {
+			"type": "apiKey",
+			"in": "header",
+			"name": "X-localization",
+			"description": "All requests must include the `X-localization` header containing your language ( en, ar )."
+		}
+	},
+	"host": "ec2-13-229-120-202.ap-southeast-1.compute.amazonaws.com:3000",
+	"basePath": "/",
+	"schemes": ["http", "https"]
+}

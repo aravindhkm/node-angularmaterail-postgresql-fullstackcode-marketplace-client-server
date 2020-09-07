@@ -1,0 +1,104 @@
+<div class="main-container">
+    <div class="row title-box">
+        <div class="col s4 pl-0 page-title">
+            <h5>User Management</h5>
+        </div>
+        <div class="col s8 header-right-sec pr-0">
+            <form class="common-form row m-0" #searchForm='ngForm' (ngSubmit)='submit(searchForm.value)'>
+                <div class="col pr-0">
+                    <button type="button" class="btn-small btn-primary" (click)="excelExport()">Export
+                Csv</button>
+                </div>
+                <div class="col m-0 p-0">
+                    <button type="button" class="btn-icon btn-block btn-reset" (click)="onReset()">
+            <i class="material-icons">autorenew</i>
+          </button>
+                </div>
+                <div class="col nav-wrapper s6">
+                    <div class="input-group">
+
+                        <div class="input-field search-field">
+                            <input id="search" type='search' [(ngModel)]='search' name='search' placeholder="search">
+                        </div>
+                        <span (click)="submit(searchForm.value)" class="input-group-addon" type='submit'>
+                            <i class="material-icons">search</i>
+                          </span>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="col s12 table-responsive">
+            <table class="table striped ">
+                <thead>
+                    <tr>
+                        <th class="xs-sec center">S No</th>
+                        <th> User Name</th>
+                        <th class=""> Email</th>
+                        <th class=""> Mobile</th>
+                        <th class="xs-sec center"> Block</th>
+                        <th class="xs-sec center"> Status</th>
+                        <th class="sm-sec center"> Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='userDatas.length != 0'>
+                    <tr *ngFor='let i=index let data of userDatas | paginate:{itemsPerPage: itemsPerPage, currentPage: page,totalItems:collection}'>
+                        <td class="center">{{(page - 1 ) * itemsPerPage + i + 1}}</td>
+                        <td>{{data.userName}}</td>
+                        <td>{{data.email}}</td>
+                        <td>{{data.mobile}}</td>
+                        <td class="center">
+                            <label class="switchStatus">
+                <input type="checkbox"
+                       name="block"
+                       [(ngModel)]="data.isBlock"
+                       (change)="blockUser($event,data.id,data.isBlock)">
+                <span class="sliderStatus slider round">
+                  <span class="on">Block</span>
+                  <span class="off">UnBlock</span></span>
+              </label>
+                        </td>
+                        <td class="center">
+                            <label class="switchStatus">
+                <input type="checkbox"
+                       name="active"
+                       [(ngModel)]="data.status"
+                       (change)="ActiveUser($event,data.id,data.status)">
+                <span class="sliderStatus slider round">
+                  <span class="on">Active</span>
+                  <span class="off">InActive</span></span>
+              </label>
+                        </td>
+                        <td class="center">
+                            <a (click)="create($event,data.id,true)" class="act-btn tooltipped" data-position="bottom" data-tooltip="I am a tooltip"><i class="small material-icons icon-view">remove_red_eye</i>
+                            </a>
+                            <a (click)="create($event,data.id,false)" class="act-btn pl-2"><i class="small material-icons icon-edit">edit</i></a>
+                            <a (click)="delete(data.id)" class="act-btn pl-2"><i class="small material-icons icon-dele">delete</i></a>
+                            <!-- <a (click)="blockUser(data.id)"
+                 class="act-btn pl-2"><i class="small material-icons icon-airplay">block</i></a> -->
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='userDatas.length == 0'>
+                    <tr>
+                        <td colspan="6" class="font-weight-medium text-center">No Data Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div *ngIf="userDatas.length > 0" class='pagination-section mt-3'>
+    <pagination-controls (pageChange)="onChange($event)" previousLabel="" nextLabel=""> </pagination-controls>
+</div>
+<div *ngIf="hideShow" id="mySidepanel" class="outer-show-sec">
+    <div class="show-form animate__animated animate__fadeInRight">
+        <app-adduser [editId]="editId" [isView]="isView" (userForm)="hideShowForm()" (userList)='getUserList()'></app-adduser>
+    </div>
+</div>
+<div class="button-section fixed-action-btn direction-top" (click)="create($event,'',false)">
+    <button class="btn-floating btn-primary btn-icon-add btn-large"><i class="material-icons">add</i></button>
+</div>
